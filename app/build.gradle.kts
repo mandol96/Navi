@@ -47,5 +47,7 @@ dependencies {
 	androidTestImplementation(libs.androidx.espresso.core)
 
 	//Jetpack
-	implementation(libs.androidx.navigation.compose)
+	implementation(libs.androidx.fragment.ktx)
+	implementation(libs.androidx.navigation.fragment)
+	implementation(libs.androidx.navigation.ui)
 }
