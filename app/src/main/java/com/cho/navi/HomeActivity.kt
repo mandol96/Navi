@@ -23,9 +23,16 @@ class HomeActivity : AppCompatActivity() {
 			v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
 			insets
 		}
+		setBottomNavigation()
+	}
+
+	private fun setBottomNavigation() {
 		val navHostFragment =
 			supportFragmentManager.findFragmentById(R.id.container_home) as NavHostFragment
 		val navController = navHostFragment.navController
-		binding.bottomNavigation.setupWithNavController(navController)
+		with(binding.bottomNavigation) {
+			itemIconTintList = null
+			setupWithNavController(navController)
+		}
 	}
 }
