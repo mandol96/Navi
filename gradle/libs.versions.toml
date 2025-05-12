@@ -1,5 +1,6 @@
 [versions]
 agp = "8.9.1"
+maps = "2.12.8"
 fragmentKtx = "1.8.6"
 kotlin = "2.0.21"
 coreKtx = "1.16.0"
@@ -13,6 +14,7 @@ constraintlayout = "2.2.1"
 navigationCompose = "2.8.9"
 
 [libraries]
+kakao-maps = { module = "com.kakao.maps.open:android", version.ref = "maps" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "navigationCompose" }
