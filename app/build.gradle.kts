@@ -1,7 +1,14 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
 	alias(libs.plugins.android.application)
 	alias(libs.plugins.kotlin.android)
 }
+
+val localPropertiesFile = rootProject.file("local.properties")
+val properties = Properties()
+properties.load(FileInputStream(localPropertiesFile))
 
 android {
 	namespace = "com.cho.navi"
@@ -14,7 +21,16 @@ android {
 		versionCode = 1
 		versionName = "1.0"
 
+		buildConfigField("String","KAKAO_API_KEY","\"${properties["kakaoapi.key"]}\"")
+
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+		ndk {
+			abiFilters.add("arm64-v8a")
+			abiFilters.add("armeabi-v7a")
+			abiFilters.add("x86")
+			abiFilters.add("x86_64")
+		}
 	}
 
 	buildTypes {
@@ -35,6 +51,7 @@ android {
 	}
 	buildFeatures {
 		viewBinding = true
+		buildConfig = true
 	}
 }
 
@@ -53,4 +70,6 @@ dependencies {
 	implementation(libs.androidx.fragment.ktx)
 	implementation(libs.androidx.navigation.fragment)
 	implementation(libs.androidx.navigation.ui)
+
+	implementation(libs.kakao.maps)
 }
