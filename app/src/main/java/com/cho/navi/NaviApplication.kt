@@ -5,9 +5,9 @@ import com.kakao.vectormap.KakaoMapSdk
 
 class NaviApplication : Application() {
 
-	override fun onCreate() {
-		super.onCreate()
+    override fun onCreate() {
+        super.onCreate()
 
-		KakaoMapSdk.init(this, BuildConfig.KAKAO_API_KEY)
-	}
+        KakaoMapSdk.init(this, BuildConfig.KAKAO_API_KEY)
+    }
 }
