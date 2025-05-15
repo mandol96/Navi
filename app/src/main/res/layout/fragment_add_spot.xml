@@ -135,7 +135,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_spot_image" />
 
         <TextView
-            android:id="@+id/tv_label_body"
+            android:id="@+id/tv_spot_description"
             style="@style/AppTextLabel.Bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -146,23 +146,23 @@
             app:layout_constraintTop_toBottomOf="@id/ib_upload_image" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ti_label_body"
+            android:id="@+id/ti_spot_description"
             style="@style/AppTextField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="@id/tv_spot_location"
             app:layout_constraintStart_toStartOf="@id/tv_spot_location"
-            app:layout_constraintTop_toBottomOf="@id/tv_label_body">
+            app:layout_constraintTop_toBottomOf="@id/tv_spot_description">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_label_body"
+                android:id="@+id/et_spot_description"
                 style="@style/AppTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:gravity="top"
                 android:hint="@string/hint_body"
-                android:inputType="text"
+                android:inputType="textMultiLine"
                 android:maxLines="5"
                 android:paddingStart="14dp"
                 android:paddingEnd="14dp" />
@@ -181,7 +181,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/tv_spot_location"
             app:layout_constraintStart_toStartOf="@id/tv_spot_location"
-            app:layout_constraintTop_toBottomOf="@id/ti_label_body" />
+            app:layout_constraintTop_toBottomOf="@id/ti_spot_description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
