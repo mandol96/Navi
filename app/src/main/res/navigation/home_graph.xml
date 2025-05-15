@@ -14,10 +14,19 @@
         android:id="@+id/navigation_map"
         android:name="com.cho.navi.MapFragment"
         android:label="MapFragment"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map">
+        <action
+            android:id="@+id/action_map_to_addSpot"
+            app:destination="@id/addSpotFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_my_page"
         android:name="com.cho.navi.MyPageFragment"
         android:label="MyPageFragment"
         tools:layout="@layout/fragment_my_page" />
+    <fragment
+        android:id="@+id/addSpotFragment"
+        android:name="com.cho.navi.AddSpotFragment"
+        android:label="AddSpotFragment"
+        tools:layout="@layout/fragment_add_spot" />
 </navigation>

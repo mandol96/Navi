@@ -3,4 +3,26 @@
     <string name="label_post">게시글</string>
     <string name="label_map">지도</string>
     <string name="label_my_page">나</string>
+
+    <!--  Add Spot  -->
+    <string name="title_spot_register">장소 등록하기</string>
+    <string name="label_location">위치</string>
+    <string name="open_map">지도 열기</string>
+    <string name="label_category">분류</string>
+    <string name="label_spot_name">장소 이름</string>
+    <string name="label_body">내용</string>
+    <string name="description_add_spot">장소 추가하기</string>
+    <string name="label_select_category">카테고리를 선택해주세요.</string>
+    <string name="hint_spot_name">장소 이름을 입력해주세요</string>
+    <string name="label_image">사진</string>
+    <string name="hint_body">내용을 입력해주세요</string>
+    <string name="confirm">확인\n</string>
+    <string name="description_upload_image">이미지 추가하기</string>
+
+    <string-array name="category_items">
+        <item>맛집</item>
+        <item>풍경</item>
+    </string-array>
+
+
 </resources>
