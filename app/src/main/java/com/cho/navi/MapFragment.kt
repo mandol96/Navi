@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.cho.navi.databinding.FragmentMapBinding
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
@@ -47,6 +48,10 @@ class MapFragment : Fragment() {
                 }
             }
         )
+
+        binding.fabAddSpot.setOnClickListener {
+            findNavController().navigate(R.id.action_map_to_addSpot)
+        }
     }
 
     override fun onResume() {
