@@ -47,7 +47,7 @@
             app:layout_constraintTop_toBottomOf="@id/tv_spot_location" />
 
         <TextView
-            android:id="@+id/tv_label_category"
+            android:id="@+id/tv_spot_category"
             style="@style/AppTextLabel.Bold"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -58,17 +58,17 @@
             app:layout_constraintTop_toBottomOf="@id/tv_spot_open_map" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/menu_category"
+            android:id="@+id/menu_spot_category"
             style="@style/AppDropDownMenu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="@id/tv_spot_location"
             app:layout_constraintStart_toStartOf="@id/tv_spot_location"
-            app:layout_constraintTop_toBottomOf="@id/tv_label_category">
+            app:layout_constraintTop_toBottomOf="@id/tv_spot_category">
 
             <AutoCompleteTextView
-                android:id="@+id/autoComplete"
+                android:id="@+id/auto_complete_tv_spot_category"
                 style="@style/AppTextLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
             android:text="@string/label_spot_name"
             app:layout_constraintEnd_toEndOf="@id/tv_spot_location"
             app:layout_constraintStart_toStartOf="@id/tv_spot_location"
-            app:layout_constraintTop_toBottomOf="@id/menu_category" />
+            app:layout_constraintTop_toBottomOf="@id/menu_spot_category" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/ti_spot_name"
