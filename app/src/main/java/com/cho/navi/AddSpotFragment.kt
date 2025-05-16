@@ -28,6 +28,19 @@ class AddSpotFragment : Fragment() {
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
+		setDropDownMenu()
+		setTextField()
+	}
+
+	private fun setDropDownMenu() {
+		binding.autoCompleteTvSpotCategory.doAfterTextChanged {
+			val spotCategory = it.toString()
+			isValidSpotCategory = spotCategory.isNotBlank()
+			updateButtonEnabledState()
+		}
+	}
+
+	private fun setTextField() {
 		binding.etSpotName.doAfterTextChanged {
 			val spotName = it?.toString() ?: ""
 			isValidSpotName = spotName.isNotBlank()
@@ -36,11 +49,6 @@ class AddSpotFragment : Fragment() {
 		binding.etSpotDescription.doAfterTextChanged {
 			val spotDescription = it?.toString() ?: ""
 			isValidSpotDescription = spotDescription.isNotBlank()
-			updateButtonEnabledState()
-		}
-		binding.autoCompleteTvSpotCategory.doAfterTextChanged {
-			val spotCategory = it.toString()
-			isValidSpotCategory = spotCategory.isNotBlank()
 			updateButtonEnabledState()
 		}
 	}
