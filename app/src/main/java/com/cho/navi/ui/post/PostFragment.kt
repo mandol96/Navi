@@ -1,4 +1,4 @@
-package com.cho.navi
+package com.cho.navi.ui.post
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,6 +19,11 @@ class PostFragment : Fragment() {
 	): View {
 		_binding = FragmentPostBinding.inflate(inflater, container, false)
 		return binding.root
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+
 	}
 
 	override fun onDestroyView() {
