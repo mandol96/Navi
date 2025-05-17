@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="16dp"
+    android:paddingBottom="24dp"
+    android:paddingEnd="16dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_post_image"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:contentDescription="@string/description_post_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/AppImageShape"
+        tools:background="@color/grey_01" />
+
+    <TextView
+        android:id="@+id/tv_post_title"
+        style="@style/AppTextLabel.Bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/iv_post_image"
+        app:layout_constraintTop_toTopOf="@id/iv_post_image"
+        tools:text="게시글1" />
+
+    <TextView
+        android:id="@+id/tv_post_description"
+        style="@style/AppTextCaption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@id/tv_post_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_post_title"
+        tools:text="내용" />
+
+    <TextView
+        android:id="@+id/tv_post_location"
+        style="@style/AppTextCaption.Grey03.Bold"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="ㅇㅇ시ㅇㅇ구ㅇㅇ동" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
