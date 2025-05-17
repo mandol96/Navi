@@ -23,10 +23,27 @@
         <item name="android:textColor">@color/grey_01</item>
     </style>
 
+    <style name="AppTextCaption">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="AppTextCaption.Grey03">
+        <item name="android:textColor">@color/grey_03</item>
+    </style>
+
+    <style name="AppTextCaption.Grey03.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="AppTextField" parent="ThemeOverlay.Material3.TextInputEditText.OutlinedBox">
         <item name="boxStrokeColor">@color/orange_700</item>
         <item name="hintTextColor">@color/grey_01</item>
         <item name="hintEnabled">false</item>
+    </style>
+
+    <style name="AppImageShape">
+        <item name="cornerSize">12dp</item>
     </style>
 
     <style name="AppCircleImageShape">
