@@ -4,14 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
+import com.cho.navi.PostClickListener
 import com.cho.navi.data.Post
 import com.cho.navi.databinding.ItemPostCategoryBinding
 
-class PostCategoryAdapter(private val items: List<Post>) :
-    RecyclerView.Adapter<PostCategoryAdapter.PostCategoryViewHolder>() {
+class PostCategoryAdapter(
+    private val items: List<Post>,
+    private val listener: PostClickListener
+) : RecyclerView.Adapter<PostCategoryAdapter.PostCategoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostCategoryViewHolder {
-        return PostCategoryViewHolder.from(parent)
+        return PostCategoryViewHolder.from(parent, listener)
     }
 
     override fun onBindViewHolder(holder: PostCategoryViewHolder, position: Int) {
@@ -23,12 +26,17 @@ class PostCategoryAdapter(private val items: List<Post>) :
     }
 
     class PostCategoryViewHolder(
-        private val binding: ItemPostCategoryBinding
+        private val binding: ItemPostCategoryBinding,
+        private val listener: PostClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(post: Post) {
             val color = post.imageUrl
             val colorInt = color.toColorInt()
+
+            itemView.setOnClickListener {
+                listener.onPostClick(post)
+            }
 
             with(binding) {
                 ivPostImage.setBackgroundColor(colorInt)
@@ -39,13 +47,13 @@ class PostCategoryAdapter(private val items: List<Post>) :
         }
 
         companion object {
-            fun from(parent: ViewGroup): PostCategoryViewHolder {
+            fun from(parent: ViewGroup, listener: PostClickListener): PostCategoryViewHolder {
                 return PostCategoryViewHolder(
                     ItemPostCategoryBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
-                    )
+                    ), listener
                 )
             }
         }
