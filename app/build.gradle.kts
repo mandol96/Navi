@@ -4,6 +4,8 @@ import java.util.Properties
 plugins {
 	alias(libs.plugins.android.application)
 	alias(libs.plugins.kotlin.android)
+	alias(libs.plugins.android.navigation.safe.args.kotlin)
+	alias(libs.plugins.kotlin.parcelize)
 }
 
 val localPropertiesFile = rootProject.file("local.properties")
