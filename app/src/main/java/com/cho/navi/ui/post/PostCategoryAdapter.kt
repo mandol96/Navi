@@ -31,7 +31,7 @@ class PostCategoryAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(post: Post) {
-            val color = post.imageUrl
+            val color = post.imageUrl.getOrNull(0) ?: "#757575"
             val colorInt = color.toColorInt()
 
             itemView.setOnClickListener {
