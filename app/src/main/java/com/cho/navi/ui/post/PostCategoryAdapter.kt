@@ -25,7 +25,7 @@ class PostCategoryAdapter(
         return items.size
     }
 
-    class PostCategoryViewHolder(
+    class PostCategoryViewHolder private constructor(
         private val binding: ItemPostCategoryBinding,
         private val listener: PostClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
