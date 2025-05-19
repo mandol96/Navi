@@ -22,7 +22,7 @@ class PostCategoryAdapter(private val items: List<Post>) :
         return items.size
     }
 
-    class PostCategoryViewHolder(
+    class PostCategoryViewHolder private constructor(
         private val binding: ItemPostCategoryBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
