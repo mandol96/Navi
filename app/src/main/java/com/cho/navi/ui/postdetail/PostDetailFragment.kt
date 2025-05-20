@@ -35,7 +35,7 @@ class PostDetailFragment : Fragment() {
             binding.rvPostDetailImage.adapter = adapter
         }
 
-        adapter.addImages(post.imageUrl)
+        adapter.addImages(post.imageUrls)
     }
 
     override fun onDestroyView() {
