@@ -10,6 +10,10 @@
         <item name="android:textSize">24sp</item>
     </style>
 
+    <style name="AppTextTitle.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="AppTextLabel">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/black</item>
@@ -21,6 +25,10 @@
 
     <style name="AppTextLabel.Grey01">
         <item name="android:textColor">@color/grey_01</item>
+    </style>
+
+    <style name="AppTextLabel.Grey02">
+        <item name="android:textColor">@color/grey_02</item>
     </style>
 
     <style name="AppTextCaption">

@@ -37,4 +37,15 @@
         android:id="@+id/navigation_add_post"
         android:name="com.cho.navi.ui.addpost.AddPostFragment"
         android:label="AddPostFragment" />
+    <fragment
+        android:id="@+id/navigation_post_detail"
+        android:name="com.cho.navi.ui.postdetail.PostDetailFragment"
+        android:label="PostDetailFragment">
+        <argument
+            android:name="post"
+            app:argType="com.cho.navi.data.Post" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_post_detail"
+        app:destination="@id/navigation_post_detail" />
 </navigation>
