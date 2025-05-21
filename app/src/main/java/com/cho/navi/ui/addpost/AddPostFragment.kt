@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.cho.navi.databinding.FragmentAddPostBinding
 
 class AddPostFragment : Fragment() {
@@ -34,6 +35,9 @@ class AddPostFragment : Fragment() {
     private fun setLayout() {
         setDropDownMenu()
         setTextField()
+        binding.toolbarAddPost.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun setDropDownMenu() {
