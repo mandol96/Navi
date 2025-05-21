@@ -64,7 +64,7 @@ class PostCategoryFragment : Fragment(), PostClickListener {
     }
 
     override fun onPostClick(post: Post) {
-        val action = PostFragmentDirections.actionPostToPostDetail(post)
+        val action = PostFragmentDirections.actionGlobalPostDetail(post)
         findNavController().navigate(action)
     }
 }
