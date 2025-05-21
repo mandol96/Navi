@@ -6,6 +6,7 @@ plugins {
 	alias(libs.plugins.kotlin.android)
 	alias(libs.plugins.android.navigation.safe.args.kotlin)
 	alias(libs.plugins.kotlin.parcelize)
+	id("com.google.gms.google-services")
 }
 
 val localPropertiesFile = rootProject.file("local.properties")
@@ -74,4 +75,8 @@ dependencies {
 	implementation(libs.androidx.navigation.ui)
 
 	implementation(libs.kakao.maps)
+
+	//Firebase
+	implementation(platform(libs.firebase.bom))
+	implementation(libs.firebase.analytics)
 }
