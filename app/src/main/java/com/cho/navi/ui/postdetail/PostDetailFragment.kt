@@ -32,7 +32,7 @@ class PostDetailFragment : Fragment() {
             tvPostDetailLocation.text = post.location
             tvPostDetailTitle.text = post.title
             tvPostDetailDescription.text = post.description
-            binding.rvPostDetailImage.adapter = adapter
+            rvPostDetailImage.adapter = adapter
         }
 
         adapter.addImages(post.imageUrls)
