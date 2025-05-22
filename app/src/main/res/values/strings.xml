@@ -33,4 +33,9 @@
     <string name="description_post_image">포스트 이미지</string>
     <string name="label_post_description">내용</string>
 
+    <!--  Add Post  -->
+    <string name="title_post_register">게시글 등록하기</string>
+    <string name="label_title">제목</string>
+    <string name="description_add_post">게시글 등록하기</string>
+
 </resources>
