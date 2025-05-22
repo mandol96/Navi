@@ -6,7 +6,7 @@ plugins {
 	alias(libs.plugins.kotlin.android)
 	alias(libs.plugins.android.navigation.safe.args.kotlin)
 	alias(libs.plugins.kotlin.parcelize)
-	id("com.google.gms.google-services")
+	alias(libs.plugins.google.services)
 }
 
 val localPropertiesFile = rootProject.file("local.properties")
