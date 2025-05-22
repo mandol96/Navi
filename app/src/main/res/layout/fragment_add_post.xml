@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_add_post"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_back_space"
+            app:title="@string/title_post_register" />
+
+        <TextView
+            android:id="@+id/tv_add_post_category"
+            style="@style/AppTextLabel.Bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="42dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="42dp"
+            android:text="@string/label_category"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar_add_post" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/menu_add_post_category"
+            style="@style/AppDropDownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="@id/tv_add_post_category"
+            app:layout_constraintStart_toStartOf="@id/tv_add_post_category"
+            app:layout_constraintTop_toBottomOf="@id/tv_add_post_category">
+
+            <AutoCompleteTextView
+                android:id="@+id/auto_complete_tv_add_post_category"
+                style="@style/AppTextLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dropDownHeight="wrap_content"
+                android:hint="@string/label_select_category"
+                android:inputType="none"
+                app:simpleItems="@array/category_items"
+                tools:ignore="LabelFor" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_add_post_title"
+            style="@style/AppTextLabel.Bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/label_title"
+            app:layout_constraintEnd_toEndOf="@id/tv_add_post_category"
+            app:layout_constraintStart_toStartOf="@id/tv_add_post_category"
+            app:layout_constraintTop_toBottomOf="@id/menu_add_post_category" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ti_add_post_title"
+            style="@style/AppTextField"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="20"
+            app:layout_constraintEnd_toEndOf="@id/tv_add_post_category"
+            app:layout_constraintStart_toStartOf="@id/tv_add_post_category"
+            app:layout_constraintTop_toBottomOf="@id/tv_add_post_title">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_post_title"
+                style="@style/AppTextLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_spot_name"
+                android:inputType="text"
+                android:maxLength="20"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_add_post_image"
+            style="@style/AppTextLabel.Bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/label_image"
+            app:layout_constraintEnd_toEndOf="@id/tv_add_post_category"
+            app:layout_constraintStart_toStartOf="@id/tv_add_post_category"
+            app:layout_constraintTop_toBottomOf="@id/ti_add_post_title" />
+
+        <ImageButton
+            android:id="@+id/ib_upload_image"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/description_upload_image"
+            android:src="@drawable/ic_upload_image"
+            app:layout_constraintStart_toStartOf="@id/tv_add_post_category"
+            app:layout_constraintTop_toBottomOf="@id/tv_add_post_image" />
+
+        <TextView
+            android:id="@+id/tv_add_post_description"
+            style="@style/AppTextLabel.Bold"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/label_body"
+            app:layout_constraintEnd_toEndOf="@id/tv_add_post_category"
+            app:layout_constraintStart_toStartOf="@id/tv_add_post_category"
+            app:layout_constraintTop_toBottomOf="@id/ib_upload_image" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ti_add_post_description"
+            style="@style/AppTextField"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="100"
+            app:layout_constraintEnd_toEndOf="@id/tv_add_post_category"
+            app:layout_constraintStart_toStartOf="@id/tv_add_post_category"
+            app:layout_constraintTop_toBottomOf="@id/tv_add_post_description">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_post_description"
+                style="@style/AppTextLabel"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:gravity="top"
+                android:hint="@string/hint_body"
+                android:inputType="textMultiLine"
+                android:maxLength="100"
+                android:maxLines="5"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_confirm"
+            style="@style/AppStateButton"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="65dp"
+            android:layout_marginBottom="60dp"
+            android:enabled="false"
+            android:text="@string/confirm"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_add_post_category"
+            app:layout_constraintStart_toStartOf="@id/tv_add_post_category"
+            app:layout_constraintTop_toBottomOf="@id/ti_add_post_description" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
+
+
