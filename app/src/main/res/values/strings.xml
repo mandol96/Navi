@@ -22,6 +22,7 @@
     <string-array name="category_items">
         <item>맛집</item>
         <item>풍경</item>
+        <item>놀이</item>
     </string-array>
 
     <!--  My Page  -->
