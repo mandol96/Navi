@@ -1,7 +1,6 @@
 package com.cho.navi.ui.addpost
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +8,10 @@ import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.cho.navi.data.Post
+import com.cho.navi.data.PostRepository
 import com.cho.navi.databinding.FragmentAddPostBinding
 import com.google.firebase.Firebase
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.firestore
 
 class AddPostFragment : Fragment() {
@@ -22,6 +22,8 @@ class AddPostFragment : Fragment() {
     private var isValidPostCategory = false
     private var isValidPostTitle = false
     private var isValidPostDescription = false
+
+    private val repository = PostRepository()
 
     val db = Firebase.firestore
 
@@ -46,26 +48,23 @@ class AddPostFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.btnConfirm.setOnClickListener {
-            val postCategory = binding.autoCompleteTvAddPostCategory.text.toString()
-            val postTitle = binding.etPostTitle.text.toString()
-            val postDescription = binding.etPostDescription.text.toString()
-
-            val postData = hashMapOf(
-                "category" to postCategory,
-                "title" to postTitle,
-                "description" to postDescription,
-                "createdAt" to Timestamp.now()
+            val post = Post(
+                id = null,
+                imageUrls = null,
+                category = binding.autoCompleteTvAddPostCategory.text.toString(),
+                title = binding.etPostTitle.text.toString(),
+                description = binding.etPostDescription.text.toString(),
+                location = null,
             )
 
-            db.collection("posts")
-                .add(postData)
-                .addOnSuccessListener {
-                    Toast.makeText(requireContext(), "게시글이 저장되었습니다.", Toast.LENGTH_SHORT).show()
-                    findNavController().navigateUp()
-                }
-                .addOnFailureListener {e ->
-                    Toast.makeText(requireContext(), "저장 실패: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
+            try {
+                repository.addPost(post)
+                Toast.makeText(requireContext(), "게시글이 저장되었습니다.", Toast.LENGTH_SHORT).show()
+                findNavController().navigateUp()
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "저장 실패: ${e.message}", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
 
