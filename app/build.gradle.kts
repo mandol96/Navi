@@ -7,6 +7,8 @@ plugins {
 	alias(libs.plugins.android.navigation.safe.args.kotlin)
 	alias(libs.plugins.kotlin.parcelize)
 	alias(libs.plugins.google.services)
+	alias(libs.plugins.ksp)
+	alias(libs.plugins.hilt)
 }
 
 val localPropertiesFile = rootProject.file("local.properties")
@@ -80,4 +82,8 @@ dependencies {
 	implementation(platform(libs.firebase.bom))
 	implementation(libs.firebase.analytics)
 	implementation(libs.firebase.firestore)
+
+	//Hilt
+	implementation(libs.hilt.android)
+	ksp(libs.hilt.android.compiler)
 }
