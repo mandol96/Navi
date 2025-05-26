@@ -10,6 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/group_add_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="toolbar_add_post,tv_add_post_category,menu_add_post_category,tv_add_post_title,ti_add_post_title,tv_add_post_image,ib_upload_image,tv_add_post_description,ti_add_post_description,btn_confirm" />
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_add_post"
             android:layout_width="0dp"
@@ -164,6 +171,19 @@
             app:layout_constraintEnd_toEndOf="@id/tv_add_post_category"
             app:layout_constraintStart_toStartOf="@id/tv_add_post_category"
             app:layout_constraintTop_toBottomOf="@id/ti_add_post_description" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_circular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:indeterminate="true"
+            app:indicatorColor="@color/orange_700"
+            android:visibility="gone"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
