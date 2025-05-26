@@ -1,22 +1,28 @@
 package com.cho.navi.data
 
-import com.google.firebase.Firebase
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
 
-class PostRepository {
+class PostRepository(
+    private val db: FirebaseFirestore
+) {
 
-    private val db = Firebase.firestore
+    suspend fun addPost(post: Post): Result<Post> {
+        return runCatching {
+            val postData = hashMapOf(
+                "category" to post.category,
+                "title" to post.title,
+                "description" to post.description,
+                "createdAt" to Timestamp.now()
+            )
 
-    fun addPost(post: Post) {
-        val postData = hashMapOf(
-            "category" to post.category,
-            "title" to post.title,
-            "description" to post.description,
-            "createdAt" to Timestamp.now()
-        )
+            val postRef =
+                db.collection("posts")
+                    .add(postData)
+                    .await()
 
-        db.collection("posts")
-            .add(postData)
+            post.copy(id = postRef.id)
+        }
     }
 }
