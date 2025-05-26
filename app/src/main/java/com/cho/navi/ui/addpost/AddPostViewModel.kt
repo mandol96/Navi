@@ -4,28 +4,27 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.cho.navi.data.Post
 import com.cho.navi.data.PostRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 
-class AddPostViewModel (
+class AddPostViewModel(
     private val repository: PostRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<AddPostUiState>(AddPostUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    fun addPost(post: Post) {
+    fun addPost(category: String, title: String, description: String) {
         viewModelScope.launch {
-            repository.addPost(post)
+            repository.addPost(category, title, description)
                 .onSuccess {
-                _uiState.value = AddPostUiState.Success(it)
-            }.onFailure {
-                _uiState.value = AddPostUiState.Error(it)
-            }
+                    _uiState.value = AddPostUiState.Success
+                }.onFailure {
+                    _uiState.value = AddPostUiState.Error(it)
+                }
         }
     }
 
@@ -40,6 +39,6 @@ class AddPostViewModel (
 
 sealed interface AddPostUiState {
     data object Loading : AddPostUiState
-    data class Success(val post: Post) : AddPostUiState
+    data object Success : AddPostUiState
     data class Error(val exception: Throwable) : AddPostUiState
 }

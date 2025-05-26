@@ -12,7 +12,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.cho.navi.data.Post
 import com.cho.navi.data.PostRepository
 import com.cho.navi.databinding.FragmentAddPostBinding
 import com.google.firebase.Firebase
@@ -50,35 +49,28 @@ class AddPostFragment : Fragment() {
         setDropDownMenu()
         setTextField()
 
-        val post = Post(
-            id = null,
-            imageUrls = null,
-            category = binding.autoCompleteTvAddPostCategory.text.toString(),
-            title = binding.etPostTitle.text.toString(),
-            description = binding.etPostDescription.text.toString(),
-            location = null,
-        )
-
-        viewModel.addPost(post)
-
         binding.toolbarAddPost.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
         binding.btnConfirm.setOnClickListener {
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.uiState
-                    .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-                    .collect { uiState ->
-                        when (uiState) {
-                            AddPostUiState.Loading -> showProgress()
-                            is AddPostUiState.Success -> addPost(uiState.post)
-                            is AddPostUiState.Error -> shoError()
-                        }
+            viewModel.addPost(
+                binding.autoCompleteTvAddPostCategory.text.toString(),
+                binding.etPostTitle.text.toString(),
+                binding.etPostDescription.text.toString(),
+            )
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                .collect { uiState ->
+                    when (uiState) {
+                        AddPostUiState.Loading -> showProgress()
+                        is AddPostUiState.Success -> completeTask()
+                        is AddPostUiState.Error -> showError()
                     }
-            }
+                }
         }
     }
-
 
     private fun setDropDownMenu() {
         binding.autoCompleteTvAddPostCategory.doAfterTextChanged {
@@ -103,21 +95,26 @@ class AddPostFragment : Fragment() {
         }
     }
 
-
     private fun showProgress() {
 
     }
 
-    private fun addPost(post: Post) {
-        viewModel.addPost(post)
+    private fun hideProgress() {
+
+    }
+
+    private fun completeTask() {
+        hideProgress()
         Toast.makeText(requireContext(), "게시글이 저장되었습니다.", Toast.LENGTH_SHORT).show()
         findNavController().navigateUp()
     }
 
-    private fun shoError() {
+    private fun showError() {
+        hideProgress()
         Toast.makeText(requireContext(), "저장 실패", Toast.LENGTH_SHORT)
             .show()
     }
+
     private fun updateButtonEnabledState() {
         binding.btnConfirm.isEnabled =
             isValidPostCategory && isValidPostTitle && isValidPostDescription
