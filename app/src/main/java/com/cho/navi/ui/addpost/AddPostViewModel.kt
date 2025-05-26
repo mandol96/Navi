@@ -14,11 +14,12 @@ class AddPostViewModel(
     private val repository: PostRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<AddPostUiState>(AddPostUiState.Loading)
+    private val _uiState = MutableStateFlow<AddPostUiState>(AddPostUiState.Idle)
     val uiState = _uiState.asStateFlow()
 
     fun addPost(category: String, title: String, description: String) {
         viewModelScope.launch {
+            _uiState.value = AddPostUiState.Loading
             repository.addPost(category, title, description)
                 .onSuccess {
                     _uiState.value = AddPostUiState.Success
@@ -38,6 +39,7 @@ class AddPostViewModel(
 }
 
 sealed interface AddPostUiState {
+    data object Idle : AddPostUiState
     data object Loading : AddPostUiState
     data object Success : AddPostUiState
     data class Error(val exception: Throwable) : AddPostUiState

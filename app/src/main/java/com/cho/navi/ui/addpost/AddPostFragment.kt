@@ -1,6 +1,7 @@
 package com.cho.navi.ui.addpost
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,12 +59,14 @@ class AddPostFragment : Fragment() {
                 binding.etPostTitle.text.toString(),
                 binding.etPostDescription.text.toString(),
             )
+            showProgress()
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
                 .collect { uiState ->
                     when (uiState) {
+                        AddPostUiState.Idle -> Unit
                         AddPostUiState.Loading -> showProgress()
                         is AddPostUiState.Success -> completeTask()
                         is AddPostUiState.Error -> showError()
@@ -96,11 +99,14 @@ class AddPostFragment : Fragment() {
     }
 
     private fun showProgress() {
-
+        Log.d("AddPostFragment","ㅇㅇ")
+        binding.groupAddPost.visibility = View.GONE
+        binding.progressCircular.visibility = View.VISIBLE
     }
 
     private fun hideProgress() {
-
+        binding.groupAddPost.visibility = View.VISIBLE
+        binding.progressCircular.visibility = View.GONE
     }
 
     private fun completeTask() {
