@@ -59,7 +59,6 @@ class AddPostFragment : Fragment() {
                 binding.etPostTitle.text.toString(),
                 binding.etPostDescription.text.toString(),
             )
-            showProgress()
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState
