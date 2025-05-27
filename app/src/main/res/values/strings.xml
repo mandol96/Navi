@@ -22,6 +22,7 @@
     <string-array name="category_items">
         <item>맛집</item>
         <item>풍경</item>
+        <item>놀이</item>
     </string-array>
 
     <!--  My Page  -->
@@ -37,5 +38,7 @@
     <string name="title_post_register">게시글 등록하기</string>
     <string name="label_title">제목</string>
     <string name="description_add_post">게시글 등록하기</string>
+    <string name="toast_save_post_message">게시글이 저장되었습니다.</string>
+    <string name="toast_error_post_message">저장 실패</string>
 
 </resources>

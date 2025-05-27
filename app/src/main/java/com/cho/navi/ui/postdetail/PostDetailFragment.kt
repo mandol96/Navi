@@ -39,7 +39,7 @@ class PostDetailFragment : Fragment() {
             }
         }
 
-        adapter.addImages(post.imageUrls)
+        post.imageUrls?.let { adapter.addImages(it) }
     }
 
     override fun onDestroyView() {

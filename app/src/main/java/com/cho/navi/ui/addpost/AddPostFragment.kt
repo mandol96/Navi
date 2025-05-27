@@ -7,11 +7,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.cho.navi.R
+import com.cho.navi.data.PostRepository
 import com.cho.navi.databinding.FragmentAddPostBinding
 import com.google.firebase.Firebase
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.launch
 
 class AddPostFragment : Fragment() {
 
@@ -22,7 +28,9 @@ class AddPostFragment : Fragment() {
     private var isValidPostTitle = false
     private var isValidPostDescription = false
 
-    val db = Firebase.firestore
+    private val viewModel: AddPostViewModel by viewModels {
+        AddPostViewModel.provideFactory(PostRepository(Firebase.firestore))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,29 +49,27 @@ class AddPostFragment : Fragment() {
     private fun setLayout() {
         setDropDownMenu()
         setTextField()
+
         binding.toolbarAddPost.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
         binding.btnConfirm.setOnClickListener {
-            val postCategory = binding.autoCompleteTvAddPostCategory.text.toString()
-            val postTitle = binding.etPostTitle.text.toString()
-            val postDescription = binding.etPostDescription.text.toString()
-
-            val postData = hashMapOf(
-                "category" to postCategory,
-                "title" to postTitle,
-                "description" to postDescription,
-                "createdAt" to Timestamp.now()
+            viewModel.addPost(
+                binding.autoCompleteTvAddPostCategory.text.toString(),
+                binding.etPostTitle.text.toString(),
+                binding.etPostDescription.text.toString(),
             )
-
-            db.collection("posts")
-                .add(postData)
-                .addOnSuccessListener {
-                    Toast.makeText(requireContext(), "게시글이 저장되었습니다.", Toast.LENGTH_SHORT).show()
-                    findNavController().navigateUp()
-                }
-                .addOnFailureListener {e ->
-                    Toast.makeText(requireContext(), "저장 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                .collect { uiState ->
+                    when (uiState) {
+                        AddPostUiState.Idle -> Unit
+                        AddPostUiState.Loading -> showProgress()
+                        is AddPostUiState.Success -> completeTask()
+                        is AddPostUiState.Error -> showError()
+                    }
                 }
         }
     }
@@ -89,6 +95,30 @@ class AddPostFragment : Fragment() {
                 updateButtonEnabledState()
             }
         }
+    }
+
+    private fun showProgress() {
+        binding.groupAddPost.visibility = View.GONE
+        binding.progressCircular.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        binding.groupAddPost.visibility = View.VISIBLE
+        binding.progressCircular.visibility = View.GONE
+    }
+
+    private fun completeTask() {
+        hideProgress()
+        Toast.makeText(requireContext(),
+            getString(R.string.toast_save_post_message), Toast.LENGTH_SHORT).show()
+        findNavController().navigateUp()
+    }
+
+    private fun showError() {
+        hideProgress()
+        Toast.makeText(requireContext(),
+            getString(R.string.toast_error_post_message), Toast.LENGTH_SHORT)
+            .show()
     }
 
     private fun updateButtonEnabledState() {

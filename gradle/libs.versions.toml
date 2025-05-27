@@ -1,8 +1,11 @@
 [versions]
 agp = "8.9.1"
 firebaseBom = "33.14.0"
+hiltAndroidCompiler = "2.56.2"
+hiltAndroidVersion = "2.56.2"
 maps = "2.12.8"
 fragmentKtx = "1.8.6"
+hiltAndroid = "2.56.2"
 kotlin = "2.0.21"
 coreKtx = "1.16.0"
 junit = "4.13.2"
@@ -14,6 +17,7 @@ activity = "1.10.1"
 constraintlayout = "2.2.1"
 navigationCompose = "2.8.9"
 navigationSafeArgsGradlePlugin = "2.9.0"
+ksp = "2.0.21-1.0.27"
 googleServices = "4.4.2"
 
 [libraries]
@@ -21,6 +25,8 @@ androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:na
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroidVersion" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
 kakao-maps = { module = "com.kakao.maps.open:android", version.ref = "maps" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
@@ -39,5 +45,6 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-navigation-safe-args-kotlin = { id = "androidx.navigation.safeargs.kotlin" }
 kotlin-parcelize = { id = "kotlin-parcelize" }
-google-services = { id = "com.google.gms.google-services", version.ref = "googleServices"}
-
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
