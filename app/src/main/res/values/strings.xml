@@ -40,5 +40,6 @@
     <string name="description_add_post">게시글 등록하기</string>
     <string name="toast_save_post_message">게시글이 저장되었습니다.</string>
     <string name="toast_error_post_message">저장 실패</string>
+    <string name="label_select_spot">위치 선택하기</string>
 
 </resources>
