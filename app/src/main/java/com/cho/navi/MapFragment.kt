@@ -9,10 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.cho.navi.databinding.FragmentMapBinding
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
-import com.kakao.vectormap.KakaoMapSdk
 import com.kakao.vectormap.MapLifeCycleCallback
-import com.kakao.vectormap.MapView
-import java.lang.Exception
 
 class MapFragment : Fragment() {
 
