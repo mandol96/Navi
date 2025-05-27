@@ -97,7 +97,6 @@ class AddPostFragment : Fragment() {
     }
 
     private fun showProgress() {
-        Log.d("AddPostFragment","ㅇㅇ")
         binding.groupAddPost.visibility = View.GONE
         binding.progressCircular.visibility = View.VISIBLE
     }
