@@ -1,4 +1,4 @@
-package com.cho.navi
+package com.cho.navi.ui.addspot
 
 import android.os.Bundle
 import android.view.LayoutInflater

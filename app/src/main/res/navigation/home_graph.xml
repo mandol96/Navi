@@ -30,7 +30,7 @@
         tools:layout="@layout/fragment_my_page" />
     <fragment
         android:id="@+id/navigation_add_spot"
-        android:name="com.cho.navi.AddSpotFragment"
+        android:name="com.cho.navi.ui.addspot.AddSpotFragment"
         android:label="AddSpotFragment"
         tools:layout="@layout/fragment_add_spot" />
     <fragment
