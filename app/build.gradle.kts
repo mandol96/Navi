@@ -87,4 +87,8 @@ dependencies {
 	//Hilt
 	implementation(libs.hilt.android)
 	ksp(libs.hilt.android.compiler)
+
+	//Network
+	implementation(platform(libs.okhttp.bom))
+	implementation(libs.okhttp)
 }
