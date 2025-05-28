@@ -23,4 +23,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar_select_spot" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/description_center_marker"
+        android:src="@drawable/ic_add_marker"
+        app:layout_constraintBottom_toBottomOf="@id/map_select_spot"
+        app:layout_constraintEnd_toEndOf="@id/map_select_spot"
+        app:layout_constraintStart_toStartOf="@id/map_select_spot"
+        app:layout_constraintTop_toTopOf="@id/map_select_spot" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
