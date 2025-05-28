@@ -77,6 +77,7 @@ dependencies {
 	implementation(libs.androidx.navigation.ui)
 
 	implementation(libs.kakao.maps)
+	implementation(libs.play.services.location)
 
 	//Firebase
 	implementation(platform(libs.firebase.bom))

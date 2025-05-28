@@ -1,4 +1,4 @@
-package com.cho.navi
+package com.cho.navi.ui.addspot
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.cho.navi.R
 import com.cho.navi.databinding.FragmentAddSpotBinding
 
 class AddSpotFragment : Fragment() {
@@ -28,8 +30,15 @@ class AddSpotFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setLayout()
+    }
+
+    private fun setLayout() {
         setDropDownMenu()
         setTextField()
+        binding.tvSpotOpenMap.setOnClickListener {
+            findNavController().navigate(R.id.action_add_spot_to_select_spot)
+        }
     }
 
     private fun setDropDownMenu() {
