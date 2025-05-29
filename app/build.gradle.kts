@@ -27,6 +27,7 @@ android {
 		versionName = "1.0"
 
 		buildConfigField("String","KAKAO_API_KEY","\"${properties["kakaoapi.key"]}\"")
+		buildConfigField("String","KAKAO_REST_API_KEY","\"${properties["kakaorestapi.key"]}\"")
 
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
