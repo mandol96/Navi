@@ -86,10 +86,13 @@ class SelectSpotFragment : Fragment() {
                                     latitude = latitude
                                 )
                             }.onSuccess { response ->
-                                val address = response.documents.firstOrNull()?.roadAddress
-
+                                val address = response.documents.firstOrNull()?.address
+                                binding.tvCurrentAddress.text = address?.addressName
                             }.onFailure {
-
+                                Toast.makeText(
+                                    requireContext(),
+                                    getString(R.string.toast_error_load_address), Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
                     }
