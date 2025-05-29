@@ -9,8 +9,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.cho.navi.R
+import com.cho.navi.data.source.remote.NaviService
 import com.cho.navi.databinding.FragmentSelectSpotBinding
 import com.cho.navi.util.Constants
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -20,6 +22,7 @@ import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.MapLifeCycleCallback
 import com.kakao.vectormap.camera.CameraUpdateFactory
+import kotlinx.coroutines.launch
 
 class SelectSpotFragment : Fragment() {
 
@@ -60,8 +63,10 @@ class SelectSpotFragment : Fragment() {
                 }
 
                 override fun onMapError(error: Exception?) {
-                    Toast.makeText(requireContext(),
-                        getString(R.string.toast_error_load_map), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.toast_error_load_map), Toast.LENGTH_SHORT
+                    ).show()
                 }
             }, object : KakaoMapReadyCallback() {
                 override fun onMapReady(kakaoMap: KakaoMap) {
@@ -70,7 +75,23 @@ class SelectSpotFragment : Fragment() {
 
                     kakaoMap.setOnCameraMoveEndListener { _, cameraPosition, _ ->
                         val center = cameraPosition.position
+                        val latitude = center.latitude
+                        val longitude = center.longitude
 
+                        lifecycleScope.launch {
+                            runCatching {
+                                val service = NaviService.create()
+                                service.getAddressFromCoordinates(
+                                    longitude = longitude,
+                                    latitude = latitude
+                                )
+                            }.onSuccess { response ->
+                                val address = response.documents.firstOrNull()?.roadAddress
+
+                            }.onFailure {
+
+                            }
+                        }
                     }
                 }
             }
