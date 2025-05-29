@@ -92,4 +92,10 @@ dependencies {
 	implementation(platform(libs.okhttp.bom))
 	implementation(libs.okhttp)
 	implementation(libs.logging.interceptor)
+	implementation (libs.retrofit)
+	implementation (libs.converter.moshi)
+
+	//Json
+	implementation(libs.moshi.kotlin)
+	ksp(libs.moshi.kotlin.codegen)
 }
