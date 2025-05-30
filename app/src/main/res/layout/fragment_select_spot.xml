@@ -33,4 +33,28 @@
         app:layout_constraintStart_toStartOf="@id/map_select_spot"
         app:layout_constraintTop_toTopOf="@id/map_select_spot" />
 
+    <View
+        android:id="@+id/view_current_address"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/background_white_12dp"
+        app:layout_constraintBottom_toBottomOf="@id/map_select_spot"
+        app:layout_constraintEnd_toEndOf="@id/map_select_spot"
+        app:layout_constraintStart_toStartOf="@id/map_select_spot" />
+
+    <TextView
+        android:id="@+id/tv_current_address"
+        style="@style/AppTextLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/view_current_address"
+        app:layout_constraintEnd_toEndOf="@id/view_current_address"
+        app:layout_constraintStart_toStartOf="@id/view_current_address"
+        app:layout_constraintTop_toTopOf="@id/view_current_address" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
