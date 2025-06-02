@@ -9,7 +9,7 @@
         android:id="@+id/navigation_post"
         android:name="com.cho.navi.ui.post.PostFragment"
         android:label="PostFragment"
-        tools:layout="@layout/fragment_post" >
+        tools:layout="@layout/fragment_post">
         <action
             android:id="@+id/action_post_to_addPost"
             app:destination="@id/navigation_add_post" />
@@ -32,10 +32,15 @@
         android:id="@+id/navigation_add_spot"
         android:name="com.cho.navi.ui.addspot.AddSpotFragment"
         android:label="AddSpotFragment"
-        tools:layout="@layout/fragment_add_spot" >
+        tools:layout="@layout/fragment_add_spot">
         <action
             android:id="@+id/action_add_spot_to_select_spot"
             app:destination="@id/navigation_select_spot" />
+        <argument
+            android:name="address"
+            android:defaultValue=""
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/navigation_add_post"
@@ -55,5 +60,9 @@
     <fragment
         android:id="@+id/navigation_select_spot"
         android:name="com.cho.navi.ui.addspot.SelectSpotFragment"
-        android:label="SelectSpotFragment" />
+        android:label="SelectSpotFragment">
+        <action
+            android:id="@+id/action_select_spot_to_add_spot"
+            app:destination="@id/navigation_add_spot" />
+    </fragment>
 </navigation>

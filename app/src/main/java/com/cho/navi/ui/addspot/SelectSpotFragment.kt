@@ -51,6 +51,11 @@ class SelectSpotFragment : Fragment() {
         binding.toolbarSelectSpot.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+        binding.btnSelected.setOnClickListener {
+            val address = binding.tvCurrentAddress.text.toString()
+            val action = SelectSpotFragmentDirections.actionSelectSpotToAddSpot(address)
+            findNavController().navigate(action)
+        }
     }
 
     private fun setMap() {

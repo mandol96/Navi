@@ -39,9 +39,8 @@
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
         android:background="@drawable/background_white_12dp"
-        app:layout_constraintBottom_toBottomOf="@id/map_select_spot"
+        app:layout_constraintBottom_toTopOf="@id/btn_selected"
         app:layout_constraintEnd_toEndOf="@id/map_select_spot"
         app:layout_constraintStart_toStartOf="@id/map_select_spot" />
 
@@ -56,5 +55,15 @@
         app:layout_constraintEnd_toEndOf="@id/view_current_address"
         app:layout_constraintStart_toStartOf="@id/view_current_address"
         app:layout_constraintTop_toTopOf="@id/view_current_address" />
+
+    <Button
+        android:id="@+id/btn_selected"
+        style="@style/AppButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/label_selected"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/view_current_address"
+        app:layout_constraintStart_toStartOf="@id/view_current_address" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
