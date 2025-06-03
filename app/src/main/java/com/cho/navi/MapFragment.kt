@@ -9,7 +9,13 @@ import androidx.navigation.fragment.findNavController
 import com.cho.navi.databinding.FragmentMapBinding
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
+import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.MapLifeCycleCallback
+import com.kakao.vectormap.camera.CameraPosition
+import com.kakao.vectormap.camera.CameraUpdateFactory
+import com.kakao.vectormap.label.LabelOptions
+import com.kakao.vectormap.label.LabelStyle
+import com.kakao.vectormap.label.LabelStyles
 
 class MapFragment : Fragment() {
 
@@ -42,6 +48,23 @@ class MapFragment : Fragment() {
             }, object : KakaoMapReadyCallback() {
                 override fun onMapReady(kakaoMap: KakaoMap) {
                     map = kakaoMap
+
+                    val cameraPosition = CameraPosition.from(
+                        37.3990995274297, 127.107516796647, 8, 0.0, 0.0, 0.0
+                    )
+                    val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
+                    kakaoMap.moveCamera(cameraUpdate)
+
+                    val iconStyle = LabelStyle.from(R.drawable.ic_marker_2)
+
+                    val styles = kakaoMap.labelManager?.addLabelStyles(LabelStyles.from(iconStyle))
+
+                    val labelOptions = LabelOptions.from(
+                        LatLng.from(37.3990995274297, 127.107516796647)
+                    ).setStyles(styles)
+
+                    kakaoMap.labelManager?.layer?.addLabel(labelOptions)
+
                 }
             }
         )
