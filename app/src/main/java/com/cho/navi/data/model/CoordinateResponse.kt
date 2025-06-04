@@ -1,5 +1,6 @@
 package com.cho.navi.data.model
 
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
@@ -14,6 +15,7 @@ data class CoordinateDocument(
 
 @JsonClass(generateAdapter = true)
 data class CoordinateAddress(
-    val x: String,
-    val y: String
+    @Json(name = "address_name") val addressName: String?,
+    val x: String, // 경도
+    val y: String  // 위도
 )
