@@ -2,42 +2,33 @@ package com.cho.navi.data
 
 import com.cho.navi.data.source.remote.NaviService
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class SpotRepository(
-    private val naviService: NaviService
+    private val naviService: NaviService,
+    private val db: FirebaseFirestore
 ) {
 
-    fun fetchSpots(
-        onCoordinate: (Double, Double) -> Unit
-    ) {
-        val db = FirebaseFirestore.getInstance()
-        db.collection("spots")
-            .get()
-            .addOnSuccessListener { result ->
-                for (doc in result.documents) {
-                    val address = doc.getString("address") ?: continue
+    suspend fun fetchSpots(onCoordinate: (Double, Double) -> Unit) {
+        try {
 
-                    CoroutineScope(Dispatchers.IO).launch {
-                        runCatching {
-                            val response = naviService.getCoordinatesFromAddress(address)
-                            val coord = response.documents.firstOrNull()?.address
-
-                            if (coord != null) {
-                                val lat = coord.y.toDouble()
-                                val lng = coord.x.toDouble()
-                                onCoordinate(lat, lng)
-                            }
-                        }.onFailure {
-
-                        }
+            val result = db.collection("spots").get().await()
+            for (doc in result.documents) {
+                val address = doc.getString("address") ?: continue
+                try {
+                    val response = naviService.getCoordinatesFromAddress(address)
+                    val coordinate = response.documents.firstOrNull()?.address
+                    if (coordinate != null) {
+                        val lat = coordinate.y.toDouble()
+                        val lng = coordinate.x.toDouble()
+                        onCoordinate(lat, lng)
                     }
+                } catch (e: Exception) {
+
                 }
             }
-            .addOnFailureListener {
+        } catch (e: Exception) {
 
-            }
+        }
     }
 }
