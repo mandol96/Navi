@@ -43,6 +43,9 @@ class AddSpotFragment : Fragment() {
     private fun setLayout() {
         setDropDownMenu()
         setTextField()
+        binding.toolbarAddSpot.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
         binding.tvSpotOpenMap.setOnClickListener {
             findNavController().navigate(R.id.action_add_spot_to_select_spot)
         }
