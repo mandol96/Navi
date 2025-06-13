@@ -2,7 +2,7 @@
     <string name="app_name">Navi</string>
     <string name="label_post">게시글</string>
     <string name="label_map">지도</string>
-    <string name="label_my_page">나</string>
+    <string name="label_rank">랭킹</string>
 
     <!--  Add Spot  -->
     <string name="title_spot_register">장소 등록하기</string>
