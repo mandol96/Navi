@@ -45,5 +45,7 @@
     <string name="toast_error_load_map">지도를 불러오는 데 실패했어요.</string>
     <string name="toast_error_load_address">주소 불러오기를 실패하였습니다</string>
     <string name="label_selected">선택</string>
+    <string name="toolbar_map">지도</string>
+    <string name="toolbar_post">게시글</string>
 
 </resources>
