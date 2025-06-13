@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_my_page"
-        android:name="com.cho.navi.MyPageFragment"
+        android:name="com.cho.navi.ui.MyPageFragment"
         android:label="MyPageFragment"
         tools:layout="@layout/fragment_my_page" />
     <fragment

@@ -40,9 +40,11 @@ class HomeActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.navigation_add_post,
                 R.id.navigation_add_spot,
-                R.id.navigation_select_spot -> {
+                R.id.navigation_select_spot,
+                R.id.navigation_my_page -> {
                     binding.bottomNavigation.visibility = View.GONE
                 }
+
                 else -> binding.bottomNavigation.visibility = View.VISIBLE
             }
         }
