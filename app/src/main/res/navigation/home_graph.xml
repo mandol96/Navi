@@ -71,4 +71,9 @@
             android:id="@+id/action_select_spot_to_add_spot"
             app:destination="@id/navigation_add_spot" />
     </fragment>
+    <fragment
+        android:id="@+id/navigation_rank"
+        android:name="com.cho.navi.ui.RankFragment"
+        android:label="RankFragment"
+        tools:layout="@layout/fragment_rank" />
 </navigation>
