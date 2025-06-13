@@ -47,5 +47,7 @@
     <string name="label_selected">선택</string>
     <string name="toolbar_map">지도</string>
     <string name="toolbar_post">게시글</string>
+    <string name="toolbar_recommendation">추천</string>
+    <string name="label_recommendation">추천</string>
 
 </resources>

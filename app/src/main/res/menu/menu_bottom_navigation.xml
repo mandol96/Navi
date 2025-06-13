@@ -11,7 +11,7 @@
         android:title="@string/label_map" />
 
     <item
-        android:id="@+id/navigation_rank"
-        android:icon="@drawable/selector_rank_menu"
-        android:title="@string/label_rank" />
+        android:id="@+id/navigation_recommendation"
+        android:icon="@drawable/selector_recommendation_menu"
+        android:title="@string/label_recommendation" />
 </menu>

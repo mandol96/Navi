@@ -30,6 +30,15 @@
             app:destination="@id/navigation_my_page" />
     </fragment>
     <fragment
+        android:id="@+id/navigation_recommendation"
+        android:name="com.cho.navi.ui.RecommendationFragment"
+        android:label="RankFragment"
+        tools:layout="@layout/fragment_recommendation" >
+        <action
+            android:id="@+id/action_recommendation_to_my_page"
+            app:destination="@id/navigation_my_page" />
+    </fragment>
+    <fragment
         android:id="@+id/navigation_my_page"
         android:name="com.cho.navi.ui.MyPageFragment"
         android:label="MyPageFragment"
@@ -71,9 +80,4 @@
             android:id="@+id/action_select_spot_to_add_spot"
             app:destination="@id/navigation_add_spot" />
     </fragment>
-    <fragment
-        android:id="@+id/navigation_rank"
-        android:name="com.cho.navi.ui.RankFragment"
-        android:label="RankFragment"
-        tools:layout="@layout/fragment_rank" />
 </navigation>
