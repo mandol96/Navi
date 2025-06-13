@@ -12,7 +12,6 @@ class SpotRepository(
 
     suspend fun fetchSpots(onCoordinate: (Double, Double) -> Unit) {
         try {
-
             val result = db.collection("spots").get().await()
             for (doc in result.documents) {
                 val address = doc.getString("address") ?: continue
