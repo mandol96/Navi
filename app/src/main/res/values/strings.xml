@@ -2,7 +2,7 @@
     <string name="app_name">Navi</string>
     <string name="label_post">게시글</string>
     <string name="label_map">지도</string>
-    <string name="label_rank">랭킹</string>
+    <string name="label_recommendation">추천</string>
 
     <!--  Add Spot  -->
     <string name="title_spot_register">장소 등록하기</string>
@@ -47,7 +47,5 @@
     <string name="label_selected">선택</string>
     <string name="toolbar_map">지도</string>
     <string name="toolbar_post">게시글</string>
-    <string name="toolbar_recommendation">추천</string>
-    <string name="label_recommendation">추천</string>
 
 </resources>
