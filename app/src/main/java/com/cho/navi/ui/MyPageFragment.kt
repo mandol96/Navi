@@ -1,10 +1,11 @@
-package com.cho.navi
+package com.cho.navi.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.cho.navi.R
 import com.cho.navi.databinding.FragmentMyPageBinding
 
 class MyPageFragment : Fragment(R.layout.fragment_my_page) {
