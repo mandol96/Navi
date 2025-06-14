@@ -43,6 +43,9 @@ class AddSpotFragment : Fragment() {
     private fun setLayout() {
         setDropDownMenu()
         setTextField()
+        binding.toolbarAddSpot.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
         binding.tvSpotOpenMap.setOnClickListener {
             findNavController().navigate(R.id.action_add_spot_to_select_spot)
         }
@@ -69,7 +72,7 @@ class AddSpotFragment : Fragment() {
                 .add(spot)
                 .addOnSuccessListener {
                     Toast.makeText(requireContext(), "장소 저장 완료", Toast.LENGTH_SHORT).show()
-                    findNavController().navigateUp()
+                    findNavController().navigate(R.id.navigation_map)
                 }
                 .addOnFailureListener {
                     Toast.makeText(requireContext(), "저장에 실패하였습니다.", Toast.LENGTH_SHORT)

@@ -40,6 +40,9 @@ class PostFragment : Fragment() {
         binding.fabAddPost.setOnClickListener {
             findNavController().navigate(R.id.action_post_to_addPost)
         }
+        binding.ibMyPage.setOnClickListener {
+            findNavController().navigate(R.id.action_post_to_my_page)
+        }
     }
 
     override fun onDestroyView() {

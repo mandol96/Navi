@@ -1,7 +1,6 @@
 package com.cho.navi
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,7 +58,7 @@ class MapFragment : Fragment() {
             }, object : KakaoMapReadyCallback() {
                 override fun onMapReady(kakaoMap: KakaoMap) {
                     map = kakaoMap
-
+                    viewModel.loadSpots()
                     viewLifecycleOwner.lifecycleScope.launch {
                         viewModel.coordinate.collect { coordinateList ->
                             coordinateList.forEach { (lat, lng) ->
@@ -67,13 +66,16 @@ class MapFragment : Fragment() {
                             }
                         }
                     }
-                    viewModel.loadSpots()
                 }
             }
         )
 
         binding.fabAddSpot.setOnClickListener {
             findNavController().navigate(R.id.action_map_to_addSpot)
+        }
+
+        binding.ibMyPage.setOnClickListener {
+            findNavController().navigate(R.id.action_map_to_my_page)
         }
     }
 
@@ -86,7 +88,6 @@ class MapFragment : Fragment() {
             .setStyles(styles)
 
         map?.labelManager?.layer?.addLabel(options)
-        Log.d("MapFragment", "addMarker: $lat, $lng")
     }
 
     override fun onResume() {

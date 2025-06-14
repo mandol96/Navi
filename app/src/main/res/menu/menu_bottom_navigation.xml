@@ -11,7 +11,7 @@
         android:title="@string/label_map" />
 
     <item
-        android:id="@+id/navigation_my_page"
-        android:icon="@drawable/selector_my_page_menu"
-        android:title="@string/label_my_page" />
+        android:id="@+id/navigation_recommendation"
+        android:icon="@drawable/selector_recommendation_menu"
+        android:title="@string/label_recommendation" />
 </menu>

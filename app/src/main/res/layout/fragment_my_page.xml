@@ -12,6 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back_space"
         app:title="@string/title_my_page" />
 
     <com.google.android.material.imageview.ShapeableImageView
