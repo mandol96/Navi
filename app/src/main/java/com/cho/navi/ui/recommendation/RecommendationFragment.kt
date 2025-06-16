@@ -1,4 +1,4 @@
-package com.cho.navi.ui
+package com.cho.navi.ui.recommendation
 
 import android.os.Bundle
 import android.view.LayoutInflater
