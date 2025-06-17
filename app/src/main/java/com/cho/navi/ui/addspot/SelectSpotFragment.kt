@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -53,21 +54,7 @@ class SelectSpotFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.address
-                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-                .collect { address ->
-                    if (address != null) {
-                        binding.tvCurrentAddress.text = address
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.toast_error_load_address),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-        }
+        collectUiState()
     }
 
     private fun setLayout() {
@@ -78,8 +65,10 @@ class SelectSpotFragment : Fragment() {
         }
         binding.btnSelected.setOnClickListener {
             val address = binding.tvCurrentAddress.text.toString()
-            val action = SelectSpotFragmentDirections.actionSelectSpotToAddSpot(address)
-            findNavController().navigate(action)
+            parentFragmentManager.setFragmentResult("select_spot_result", bundleOf(
+                "selected_address" to address
+            ))
+            findNavController().navigateUp()
         }
     }
 
@@ -136,6 +125,42 @@ class SelectSpotFragment : Fragment() {
                 map?.moveCamera(cameraUpdate)
             }
         }
+    }
+
+    private fun collectUiState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                .collect { uiState ->
+                    when (uiState) {
+                        SelectSpotUiState.Loading -> showProgress()
+                        is SelectSpotUiState.Success -> completeTask(uiState.address)
+                        is SelectSpotUiState.Error -> showError()
+                    }
+                }
+        }
+    }
+
+    private fun showProgress() {
+        binding.groupSelectSpot.visibility = View.GONE
+        binding.groupSelectSpot.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        binding.groupSelectSpot.visibility = View.VISIBLE
+        binding.progressCircular.visibility = View.GONE
+    }
+
+    private fun completeTask(address: String?) {
+        hideProgress()
+        binding.tvCurrentAddress.text = address
+    }
+
+    private fun showError() {
+        hideProgress()
+        Toast.makeText(requireContext(),
+            getString(R.string.toast_error_post_message), Toast.LENGTH_SHORT)
+            .show()
     }
 
     override fun onDestroyView() {

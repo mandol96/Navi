@@ -8,8 +8,6 @@ import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.cho.navi.R
 import com.cho.navi.data.Spot
 import com.cho.navi.databinding.FragmentAddSpotBinding
 import com.google.firebase.firestore.ktx.firestore
@@ -23,8 +21,6 @@ class AddSpotFragment : Fragment() {
     private var isValidSpotCategory = false
     private var isValidSpotName = false
     private var isValidSpotDescription = false
-
-    private val args: AddSpotFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,22 +43,28 @@ class AddSpotFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.tvSpotOpenMap.setOnClickListener {
-            findNavController().navigate(R.id.action_add_spot_to_select_spot)
+            val action = AddSpotFragmentDirections.actionAddSpotToSelectSpot()
+            findNavController().navigate(action)
         }
-        val address = args.address
 
-        if (address.isNullOrBlank()) {
-            binding.tvSpotOpenMap.visibility = View.VISIBLE
-            binding.tvSpotAddress.visibility = View.GONE
-        } else {
-            binding.tvSpotAddress.text = address
-            binding.tvSpotOpenMap.visibility = View.INVISIBLE
-            binding.tvSpotAddress.visibility = View.VISIBLE
+        parentFragmentManager.setFragmentResultListener(
+            "select_spot_result",
+            viewLifecycleOwner
+        ) { _, bundle ->
+            val address = bundle.getString("selected_address")
+            if (address.isNullOrBlank()) {
+                binding.tvSpotOpenMap.visibility = View.VISIBLE
+                binding.tvSpotAddress.visibility = View.GONE
+            } else {
+                binding.tvSpotAddress.text = address
+                binding.tvSpotOpenMap.visibility = View.INVISIBLE
+                binding.tvSpotAddress.visibility = View.VISIBLE
+            }
         }
 
         binding.btnConfirm.setOnClickListener {
             val spot = Spot(
-                address = args.address.toString(),
+                address = binding.tvSpotAddress.text.toString(),
                 name = binding.etSpotName.text.toString(),
                 description = binding.etSpotDescription.text.toString(),
                 imageUrls = null,
@@ -72,7 +74,7 @@ class AddSpotFragment : Fragment() {
                 .add(spot)
                 .addOnSuccessListener {
                     Toast.makeText(requireContext(), "장소 저장 완료", Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.navigation_map)
+                    findNavController().navigateUp()
                 }
                 .addOnFailureListener {
                     Toast.makeText(requireContext(), "저장에 실패하였습니다.", Toast.LENGTH_SHORT)

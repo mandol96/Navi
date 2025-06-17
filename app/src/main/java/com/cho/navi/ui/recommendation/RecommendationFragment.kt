@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.cho.navi.R
 import com.cho.navi.databinding.FragmentRecommendationBinding
 
 class RecommendationFragment : Fragment() {
@@ -26,7 +25,8 @@ class RecommendationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.ibRecommendation.setOnClickListener {
-            findNavController().navigate(R.id.action_recommendation_to_my_page)
+            val action = RecommendationFragmentDirections.actionRecommendationToMyPage()
+            findNavController().navigate(action)
         }
     }
 
