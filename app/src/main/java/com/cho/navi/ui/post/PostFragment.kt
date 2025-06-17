@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.cho.navi.R
 import com.cho.navi.data.Category
 import com.cho.navi.databinding.FragmentPostBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -38,10 +37,12 @@ class PostFragment : Fragment() {
         }.attach()
 
         binding.fabAddPost.setOnClickListener {
-            findNavController().navigate(R.id.action_post_to_addPost)
+            val action = PostFragmentDirections.actionPostToAddPost()
+            findNavController().navigate(action)
         }
         binding.ibMyPage.setOnClickListener {
-            findNavController().navigate(R.id.action_post_to_my_page)
+            val action = PostFragmentDirections.actionPostToMyPage()
+            findNavController().navigate(action)
         }
     }
 
