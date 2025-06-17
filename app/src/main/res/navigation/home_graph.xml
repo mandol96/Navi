@@ -75,9 +75,5 @@
     <fragment
         android:id="@+id/navigation_select_spot"
         android:name="com.cho.navi.ui.addspot.SelectSpotFragment"
-        android:label="SelectSpotFragment">
-        <action
-            android:id="@+id/action_select_spot_to_add_spot"
-            app:destination="@id/navigation_add_spot" />
-    </fragment>
+        android:label="SelectSpotFragment"/>
 </navigation>
