@@ -1,5 +1,6 @@
 package com.cho.navi.data
 
+import com.cho.navi.data.model.Address
 import com.cho.navi.data.source.remote.NaviService
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -30,5 +31,10 @@ class SpotRepository(
         } catch (e: Exception) {
 
         }
+    }
+
+    suspend fun getAddressFromCoordinates(longitude: Double, latitude: Double): Address? {
+        val response = naviService.getAddressFromCoordinates(longitude, latitude)
+        return response.documents.firstOrNull()?.address
     }
 }

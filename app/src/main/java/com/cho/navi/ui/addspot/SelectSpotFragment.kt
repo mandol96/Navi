@@ -9,14 +9,20 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.cho.navi.R
+import com.cho.navi.data.SpotRepository
 import com.cho.navi.data.source.remote.NaviService
 import com.cho.navi.databinding.FragmentSelectSpotBinding
 import com.cho.navi.util.Constants
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.LatLng
@@ -31,6 +37,9 @@ class SelectSpotFragment : Fragment() {
 
     private var map: KakaoMap? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private val viewModel: SelectSpotViewModel by viewModels {
+        SelectSpotViewModel.provideFactory(SpotRepository(NaviService.create(), Firebase.firestore))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,10 +53,12 @@ class SelectSpotFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
+        collectUiState()
     }
 
     private fun setLayout() {
         setMap()
+
         binding.toolbarSelectSpot.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
@@ -80,26 +91,7 @@ class SelectSpotFragment : Fragment() {
 
                     kakaoMap.setOnCameraMoveEndListener { _, cameraPosition, _ ->
                         val center = cameraPosition.position
-                        val latitude = center.latitude
-                        val longitude = center.longitude
-
-                        lifecycleScope.launch {
-                            runCatching {
-                                val service = NaviService.create()
-                                service.getAddressFromCoordinates(
-                                    longitude = longitude,
-                                    latitude = latitude
-                                )
-                            }.onSuccess { response ->
-                                val address = response.documents.firstOrNull()?.address
-                                binding.tvCurrentAddress.text = address?.addressName
-                            }.onFailure {
-                                Toast.makeText(
-                                    requireContext(),
-                                    getString(R.string.toast_error_load_address), Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }
+                        viewModel.fetchAddress(center.longitude, center.latitude)
                     }
                 }
             }
@@ -130,6 +122,42 @@ class SelectSpotFragment : Fragment() {
                 map?.moveCamera(cameraUpdate)
             }
         }
+    }
+
+    private fun collectUiState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                .collect { uiState ->
+                    when (uiState) {
+                        SelectSpotUiState.Loading -> showProgress()
+                        is SelectSpotUiState.Success -> completeTask(uiState.address)
+                        is SelectSpotUiState.Error -> showError()
+                    }
+                }
+        }
+    }
+
+    private fun showProgress() {
+        binding.groupSelectSpot.visibility = View.GONE
+        binding.groupSelectSpot.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        binding.groupSelectSpot.visibility = View.VISIBLE
+        binding.progressCircular.visibility = View.GONE
+    }
+
+    private fun completeTask(address: String?) {
+        hideProgress()
+        binding.tvCurrentAddress.text = address
+    }
+
+    private fun showError() {
+        hideProgress()
+        Toast.makeText(requireContext(),
+            getString(R.string.toast_error_post_message), Toast.LENGTH_SHORT)
+            .show()
     }
 
     override fun onDestroyView() {
