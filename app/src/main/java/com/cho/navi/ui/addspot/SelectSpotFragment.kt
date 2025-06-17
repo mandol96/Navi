@@ -53,21 +53,7 @@ class SelectSpotFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.address
-                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-                .collect { address ->
-                    if (address != null) {
-                        binding.tvCurrentAddress.text = address
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            getString(R.string.toast_error_load_address),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-        }
+        collectUiState()
     }
 
     private fun setLayout() {
@@ -136,6 +122,42 @@ class SelectSpotFragment : Fragment() {
                 map?.moveCamera(cameraUpdate)
             }
         }
+    }
+
+    private fun collectUiState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                .collect { uiState ->
+                    when (uiState) {
+                        SelectSpotUiState.Loading -> showProgress()
+                        is SelectSpotUiState.Success -> completeTask(uiState.address)
+                        is SelectSpotUiState.Error -> showError()
+                    }
+                }
+        }
+    }
+
+    private fun showProgress() {
+        binding.groupSelectSpot.visibility = View.GONE
+        binding.groupSelectSpot.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        binding.groupSelectSpot.visibility = View.VISIBLE
+        binding.progressCircular.visibility = View.GONE
+    }
+
+    private fun completeTask(address: String?) {
+        hideProgress()
+        binding.tvCurrentAddress.text = address
+    }
+
+    private fun showError() {
+        hideProgress()
+        Toast.makeText(requireContext(),
+            getString(R.string.toast_error_post_message), Toast.LENGTH_SHORT)
+            .show()
     }
 
     override fun onDestroyView() {

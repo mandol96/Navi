@@ -13,17 +13,18 @@ class SelectSpotViewModel(
     private val repository: SpotRepository
 ) : ViewModel() {
 
-    private val _address = MutableStateFlow<String?>("")
-    val address = _address.asStateFlow()
+    private val _uiState = MutableStateFlow<SelectSpotUiState>(SelectSpotUiState.Success(null))
+    val uiState = _uiState.asStateFlow()
 
     fun fetchAddress(lat: Double, lng: Double) {
         viewModelScope.launch {
+            _uiState.value = SelectSpotUiState.Loading
             runCatching {
                 repository.getAddressFromCoordinates(lat, lng)
             }.onSuccess { address ->
-                _address.value = address?.addressName
-            }.onFailure {
-                _address.value = null
+                _uiState.value = SelectSpotUiState.Success(address?.addressName)
+            }.onFailure { error ->
+                _uiState.value = SelectSpotUiState.Error(error)
             }
         }
     }
@@ -35,4 +36,10 @@ class SelectSpotViewModel(
             }
         }
     }
+}
+
+sealed interface SelectSpotUiState {
+    data object Loading : SelectSpotUiState
+    data class Success(val address: String?) : SelectSpotUiState
+    data class Error(val exception: Throwable) : SelectSpotUiState
 }
