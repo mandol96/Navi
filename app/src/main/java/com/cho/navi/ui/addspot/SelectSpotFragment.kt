@@ -65,8 +65,8 @@ class SelectSpotFragment : Fragment() {
         }
         binding.btnSelected.setOnClickListener {
             val address = binding.tvCurrentAddress.text.toString()
-            parentFragmentManager.setFragmentResult("select_spot_result", bundleOf(
-                "selected_address" to address
+            parentFragmentManager.setFragmentResult(Constants.SELECT_SPOT_RESULT, bundleOf(
+                Constants.SELECTED_ADDRESS to address
             ))
             findNavController().navigateUp()
         }

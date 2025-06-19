@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.cho.navi.data.Spot
 import com.cho.navi.databinding.FragmentAddSpotBinding
+import com.cho.navi.util.Constants
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -48,10 +49,10 @@ class AddSpotFragment : Fragment() {
         }
 
         parentFragmentManager.setFragmentResultListener(
-            "select_spot_result",
+            Constants.SELECT_SPOT_RESULT,
             viewLifecycleOwner
         ) { _, bundle ->
-            val address = bundle.getString("selected_address")
+            val address = bundle.getString(Constants.SELECTED_ADDRESS)
             if (address.isNullOrBlank()) {
                 binding.tvSpotOpenMap.visibility = View.VISIBLE
                 binding.tvSpotAddress.visibility = View.GONE
