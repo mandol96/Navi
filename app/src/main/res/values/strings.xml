@@ -2,7 +2,7 @@
     <string name="app_name">Navi</string>
     <string name="label_post">게시글</string>
     <string name="label_map">지도</string>
-    <string name="label_my_page">나</string>
+    <string name="label_recommendation">추천</string>
 
     <!--  Add Spot  -->
     <string name="title_spot_register">장소 등록하기</string>
@@ -26,7 +26,7 @@
     </string-array>
 
     <!--  My Page  -->
-    <string name="title_my_page">ㅇㅇ님의 프로필</string>
+    <string name="title_my_page">나의 프로필</string>
     <string name="label_user_name">소금빵</string>
     <string name="label_update_profile">프로필 수정</string>
 

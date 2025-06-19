@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -64,8 +65,10 @@ class SelectSpotFragment : Fragment() {
         }
         binding.btnSelected.setOnClickListener {
             val address = binding.tvCurrentAddress.text.toString()
-            val action = SelectSpotFragmentDirections.actionSelectSpotToAddSpot(address)
-            findNavController().navigate(action)
+            parentFragmentManager.setFragmentResult(Constants.SELECT_SPOT_RESULT, bundleOf(
+                Constants.SELECTED_ADDRESS to address
+            ))
+            findNavController().navigateUp()
         }
     }
 

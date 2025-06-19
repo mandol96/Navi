@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_post_to_addPost"
             app:destination="@id/navigation_add_post" />
+        <action
+            android:id="@+id/action_post_to_my_page"
+            app:destination="@id/navigation_my_page" />
     </fragment>
     <fragment
         android:id="@+id/navigation_map"
@@ -22,10 +25,22 @@
         <action
             android:id="@+id/action_map_to_addSpot"
             app:destination="@id/navigation_add_spot" />
+        <action
+            android:id="@+id/action_map_to_my_page"
+            app:destination="@id/navigation_my_page" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_recommendation"
+        android:name="com.cho.navi.ui.RecommendationFragment"
+        android:label="RankFragment"
+        tools:layout="@layout/fragment_recommendation" >
+        <action
+            android:id="@+id/action_recommendation_to_my_page"
+            app:destination="@id/navigation_my_page" />
     </fragment>
     <fragment
         android:id="@+id/navigation_my_page"
-        android:name="com.cho.navi.MyPageFragment"
+        android:name="com.cho.navi.ui.MyPageFragment"
         android:label="MyPageFragment"
         tools:layout="@layout/fragment_my_page" />
     <fragment
@@ -60,9 +75,5 @@
     <fragment
         android:id="@+id/navigation_select_spot"
         android:name="com.cho.navi.ui.addspot.SelectSpotFragment"
-        android:label="SelectSpotFragment">
-        <action
-            android:id="@+id/action_select_spot_to_add_spot"
-            app:destination="@id/navigation_add_spot" />
-    </fragment>
+        android:label="SelectSpotFragment"/>
 </navigation>

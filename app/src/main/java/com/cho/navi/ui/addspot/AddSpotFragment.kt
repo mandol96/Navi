@@ -8,10 +8,9 @@ import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.cho.navi.R
 import com.cho.navi.data.Spot
 import com.cho.navi.databinding.FragmentAddSpotBinding
+import com.cho.navi.util.Constants
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -23,8 +22,6 @@ class AddSpotFragment : Fragment() {
     private var isValidSpotCategory = false
     private var isValidSpotName = false
     private var isValidSpotDescription = false
-
-    private val args: AddSpotFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,23 +40,32 @@ class AddSpotFragment : Fragment() {
     private fun setLayout() {
         setDropDownMenu()
         setTextField()
-        binding.tvSpotOpenMap.setOnClickListener {
-            findNavController().navigate(R.id.action_add_spot_to_select_spot)
+        binding.toolbarAddSpot.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
-        val address = args.address
+        binding.tvSpotOpenMap.setOnClickListener {
+            val action = AddSpotFragmentDirections.actionAddSpotToSelectSpot()
+            findNavController().navigate(action)
+        }
 
-        if (address.isNullOrBlank()) {
-            binding.tvSpotOpenMap.visibility = View.VISIBLE
-            binding.tvSpotAddress.visibility = View.GONE
-        } else {
-            binding.tvSpotAddress.text = address
-            binding.tvSpotOpenMap.visibility = View.INVISIBLE
-            binding.tvSpotAddress.visibility = View.VISIBLE
+        parentFragmentManager.setFragmentResultListener(
+            Constants.SELECT_SPOT_RESULT,
+            viewLifecycleOwner
+        ) { _, bundle ->
+            val address = bundle.getString(Constants.SELECTED_ADDRESS)
+            if (address.isNullOrBlank()) {
+                binding.tvSpotOpenMap.visibility = View.VISIBLE
+                binding.tvSpotAddress.visibility = View.GONE
+            } else {
+                binding.tvSpotAddress.text = address
+                binding.tvSpotOpenMap.visibility = View.INVISIBLE
+                binding.tvSpotAddress.visibility = View.VISIBLE
+            }
         }
 
         binding.btnConfirm.setOnClickListener {
             val spot = Spot(
-                address = args.address.toString(),
+                address = binding.tvSpotAddress.text.toString(),
                 name = binding.etSpotName.text.toString(),
                 description = binding.etSpotDescription.text.toString(),
                 imageUrls = null,
