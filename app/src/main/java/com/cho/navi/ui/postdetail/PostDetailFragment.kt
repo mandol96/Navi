@@ -14,6 +14,7 @@ class PostDetailFragment : Fragment() {
     private var _binding: FragmentPostDetailBinding? = null
     private val binding get() = _binding!!
     private val args: PostDetailFragmentArgs by navArgs()
+    private var isLiked = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +27,10 @@ class PostDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setLayout()
+    }
+
+    private fun setLayout() {
         val adapter = PostDetailAdapter()
         val post = args.post
 
@@ -40,6 +45,19 @@ class PostDetailFragment : Fragment() {
         }
 
         post.imageUrls?.let { adapter.addImages(it) }
+        
+        binding.ibFavorite.setOnClickListener {
+            likeButton()
+        }
+    }
+
+    private fun likeButton() {
+        isLiked = !isLiked
+        updateLikeButtonUI(isLiked)
+    }
+
+    private fun updateLikeButtonUI(isLiked: Boolean) {
+        binding.ibFavorite.isSelected = isLiked
     }
 
     override fun onDestroyView() {
