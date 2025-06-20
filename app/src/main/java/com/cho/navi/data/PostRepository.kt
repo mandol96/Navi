@@ -13,9 +13,12 @@ class PostRepository(
         post: Post
     ): Result<DocumentReference> {
         return runCatching {
+            val postData =
             db.collection("posts")
                 .add(post)
                 .await()
+            postData.update("id", postData.id).await()
+            postData
         }
     }
 }
