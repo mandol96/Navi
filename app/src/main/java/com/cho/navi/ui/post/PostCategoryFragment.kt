@@ -57,11 +57,11 @@ class PostCategoryFragment : Fragment(), PostClickListener {
 
     private fun loadCategoryPosts() {
         Firebase.firestore.collection("posts")
-            .whereEqualTo("category", category.displayName) // 예: "맛집"
+            .whereEqualTo("category", category.displayName)
             .get()
             .addOnSuccessListener { result ->
                 val posts = result.documents.mapNotNull { it.toObject(Post::class.java) }
-                adapter.submitList(posts) // 어댑터에 게시글 갱신
+                adapter.submitList(posts)
             }
             .addOnFailureListener {
                 Toast.makeText(requireContext(), "불러오기 실패", Toast.LENGTH_SHORT).show()

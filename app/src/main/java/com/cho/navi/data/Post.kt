@@ -6,10 +6,12 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Post(
+    val id: String = "",
     val category: String = "",
     val imageUrls: List<String>? = null,
     val title: String = "",
     val description: String = "",
     val location: String? = null,
-    val createdAt: Timestamp? = null
+    val createdAt: Timestamp? = null,
+    val likeCount: Int = 0
 ) : Parcelable
