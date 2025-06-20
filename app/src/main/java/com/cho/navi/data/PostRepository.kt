@@ -10,19 +10,11 @@ class PostRepository(
 ) {
 
     suspend fun addPost(
-        category: String,
-        title: String,
-        description: String
+        post: Post
     ): Result<DocumentReference> {
         return runCatching {
-            val postData = hashMapOf(
-                "category" to category,
-                "title" to title,
-                "description" to description,
-                "createdAt" to Timestamp.now()
-            )
             db.collection("posts")
-                .add(postData)
+                .add(post)
                 .await()
         }
     }

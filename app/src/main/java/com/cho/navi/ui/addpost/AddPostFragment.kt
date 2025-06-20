@@ -13,9 +13,11 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.cho.navi.R
+import com.cho.navi.data.Post
 import com.cho.navi.data.PostRepository
 import com.cho.navi.databinding.FragmentAddPostBinding
 import com.google.firebase.Firebase
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
 
@@ -54,11 +56,14 @@ class AddPostFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.btnConfirm.setOnClickListener {
-            viewModel.addPost(
-                binding.autoCompleteTvAddPostCategory.text.toString(),
-                binding.etPostTitle.text.toString(),
-                binding.etPostDescription.text.toString(),
+            val post = Post(
+                category = binding.autoCompleteTvAddPostCategory.text.toString(),
+                title = binding.etPostTitle.text.toString(),
+                description = binding.etPostDescription.text.toString(),
+                createdAt = Timestamp.now(),
+                likeCount = 0
             )
+            viewModel.addPost(post)
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState
@@ -109,15 +114,19 @@ class AddPostFragment : Fragment() {
 
     private fun completeTask() {
         hideProgress()
-        Toast.makeText(requireContext(),
-            getString(R.string.toast_save_post_message), Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.toast_save_post_message), Toast.LENGTH_SHORT
+        ).show()
         findNavController().navigateUp()
     }
 
     private fun showError() {
         hideProgress()
-        Toast.makeText(requireContext(),
-            getString(R.string.toast_error_post_message), Toast.LENGTH_SHORT)
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.toast_error_post_message), Toast.LENGTH_SHORT
+        )
             .show()
     }
 

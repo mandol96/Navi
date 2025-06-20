@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.cho.navi.data.Post
 import com.cho.navi.data.PostRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,10 +18,10 @@ class AddPostViewModel(
     private val _uiState = MutableStateFlow<AddPostUiState>(AddPostUiState.Idle)
     val uiState = _uiState.asStateFlow()
 
-    fun addPost(category: String, title: String, description: String) {
+    fun addPost(post:Post) {
         viewModelScope.launch {
             _uiState.value = AddPostUiState.Loading
-            repository.addPost(category, title, description)
+            repository.addPost(post)
                 .onSuccess {
                     _uiState.value = AddPostUiState.Success
                 }.onFailure {
