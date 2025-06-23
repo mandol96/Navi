@@ -5,23 +5,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.cho.navi.data.PostRepository
 import com.cho.navi.databinding.FragmentPostDetailBinding
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.launch
 import java.util.UUID
-import androidx.core.content.edit
-import com.cho.navi.data.Post
 
 class PostDetailFragment : Fragment() {
 
     private var _binding: FragmentPostDetailBinding? = null
     private val binding get() = _binding!!
     private val args: PostDetailFragmentArgs by navArgs()
-    private val db = FirebaseFirestore.getInstance()
-    private var isLiked = false
     private lateinit var userId: String
+
+    private val viewModel: PostDetailViewModel by viewModels {
+        PostDetailViewModel.provideFactory(PostRepository(Firebase.firestore))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +44,8 @@ class PostDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         userId = getDeviceUserId(requireContext())
         setLayout()
+        collectUiState()
+        viewModel.loadLikeState(args.post.id, userId)
     }
 
     private fun setLayout() {
@@ -53,11 +63,31 @@ class PostDetailFragment : Fragment() {
         }
 
         post.imageUrls?.let { adapter.addImages(it) }
+    }
 
-        binding.ibFavorite.setOnClickListener {
-            toggleLike(post)
+    private fun collectUiState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { uiState ->
+                    when (uiState) {
+                        is PostDetailUiState.Loading -> {
+
+                        }
+
+                        is PostDetailUiState.Success -> {
+                            binding.ibFavorite.isSelected = uiState.isLiked
+                            binding.ibFavorite.setOnClickListener {
+                                viewModel.toggleLike(args.post.id, userId)
+                            }
+                        }
+
+                        is PostDetailUiState.Error -> {
+
+                        }
+                    }
+                }
+            }
         }
-        loadLikeState(post)
     }
 
     private fun getDeviceUserId(context: Context): String {
@@ -70,41 +100,6 @@ class PostDetailFragment : Fragment() {
         }
 
         return userId
-    }
-
-    private fun toggleLike(post: Post) {
-        val likeRef = db.collection("posts")
-            .document(post.id)
-            .collection("likes")
-            .document(userId)
-
-        if (isLiked) {
-            likeRef.delete().addOnSuccessListener {
-                isLiked = false
-                updateLikeButtonUI(isLiked)
-            }
-        } else {
-            likeRef.set(mapOf("liked" to true)).addOnSuccessListener {
-                isLiked = true
-                updateLikeButtonUI(isLiked)
-            }
-        }
-    }
-
-    private fun updateLikeButtonUI(isLiked: Boolean) {
-        binding.ibFavorite.isSelected = isLiked
-    }
-
-    private fun loadLikeState(post: Post) {
-        val postId = post.id
-        val likeRef = db.collection("posts")
-            .document(postId)
-            .collection("likes")
-            .document(userId)
-        likeRef.get().addOnSuccessListener { document ->
-            isLiked = document.exists()
-            updateLikeButtonUI(isLiked)
-        }
     }
 
     override fun onDestroyView() {

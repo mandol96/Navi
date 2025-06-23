@@ -2,6 +2,7 @@ package com.cho.navi.ui.post
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,8 +64,9 @@ class PostCategoryFragment : Fragment(), PostClickListener {
                 val posts = result.documents.mapNotNull { it.toObject(Post::class.java) }
                 adapter.submitList(posts)
             }
-            .addOnFailureListener {
+            .addOnFailureListener { e ->
                 Toast.makeText(requireContext(), "불러오기 실패", Toast.LENGTH_SHORT).show()
+                Log.e("파싱 오류", e.message, e)
             }
     }
 
