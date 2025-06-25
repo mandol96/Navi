@@ -19,7 +19,8 @@ import com.cho.navi.R
 import com.cho.navi.data.SpotRepository
 import com.cho.navi.data.source.remote.NaviService
 import com.cho.navi.databinding.FragmentSelectSpotBinding
-import com.cho.navi.util.Constants
+import com.cho.navi.util.PermissionConstants
+import com.cho.navi.util.ResultKeys
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.firestore.ktx.firestore
@@ -65,9 +66,11 @@ class SelectSpotFragment : Fragment() {
         }
         binding.btnSelected.setOnClickListener {
             val address = binding.tvCurrentAddress.text.toString()
-            parentFragmentManager.setFragmentResult(Constants.SELECT_SPOT_RESULT, bundleOf(
-                Constants.SELECTED_ADDRESS to address
-            ))
+            parentFragmentManager.setFragmentResult(
+                ResultKeys.SELECT_SPOT_RESULT, bundleOf(
+                    ResultKeys.SELECTED_ADDRESS to address
+                )
+            )
             findNavController().navigateUp()
         }
     }
@@ -110,7 +113,7 @@ class SelectSpotFragment : Fragment() {
             ActivityCompat.requestPermissions(
                 requireActivity(),
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                Constants.REQUEST_LOCATION_PERMISSION
+                PermissionConstants.REQUEST_LOCATION_PERMISSION
             )
             return
         }
@@ -158,8 +161,10 @@ class SelectSpotFragment : Fragment() {
 
     private fun showError() {
         hideProgress()
-        Toast.makeText(requireContext(),
-            getString(R.string.toast_error_post_message), Toast.LENGTH_SHORT)
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.toast_error_post_message), Toast.LENGTH_SHORT
+        )
             .show()
     }
 

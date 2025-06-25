@@ -3,26 +3,23 @@ package com.cho.navi.ui.post
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.graphics.toColorInt
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.cho.navi.PostClickListener
 import com.cho.navi.data.Post
 import com.cho.navi.databinding.ItemPostCategoryBinding
 
 class PostCategoryAdapter(
-    private val items: List<Post>,
     private val listener: PostClickListener
-) : RecyclerView.Adapter<PostCategoryAdapter.PostCategoryViewHolder>() {
+) : ListAdapter<Post, PostCategoryAdapter.PostCategoryViewHolder>(PostCategoryDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostCategoryViewHolder {
         return PostCategoryViewHolder.from(parent, listener)
     }
 
     override fun onBindViewHolder(holder: PostCategoryViewHolder, position: Int) {
-        holder.bind(items[position])
-    }
-
-    override fun getItemCount(): Int {
-        return items.size
+        holder.bind(getItem(position))
     }
 
     class PostCategoryViewHolder private constructor(
@@ -57,5 +54,15 @@ class PostCategoryAdapter(
                 )
             }
         }
+    }
+}
+
+class PostCategoryDiffCallback : DiffUtil.ItemCallback<Post>() {
+    override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
+        return oldItem.title == newItem.title
+    }
+
+    override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
+        return oldItem == newItem
     }
 }
