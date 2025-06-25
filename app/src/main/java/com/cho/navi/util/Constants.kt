@@ -14,3 +14,8 @@ object FirestoreConstants {
     const val FIELD_LIKED = "liked"
     const val FIELD_ID = "id"
 }
+
+object ResultKeys {
+    const val SELECT_SPOT_RESULT = "select_spot_result"
+    const val SELECTED_ADDRESS = "selected_address"
+}

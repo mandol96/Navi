@@ -20,6 +20,7 @@ import com.cho.navi.data.SpotRepository
 import com.cho.navi.data.source.remote.NaviService
 import com.cho.navi.databinding.FragmentSelectSpotBinding
 import com.cho.navi.util.PermissionConstants
+import com.cho.navi.util.ResultKeys
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.firestore.ktx.firestore
@@ -66,8 +67,8 @@ class SelectSpotFragment : Fragment() {
         binding.btnSelected.setOnClickListener {
             val address = binding.tvCurrentAddress.text.toString()
             parentFragmentManager.setFragmentResult(
-                "select_spot_result", bundleOf(
-                    "selected_address" to address
+                ResultKeys.SELECT_SPOT_RESULT, bundleOf(
+                    ResultKeys.SELECTED_ADDRESS to address
                 )
             )
             findNavController().navigateUp()
