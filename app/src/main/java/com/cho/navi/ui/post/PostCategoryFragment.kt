@@ -13,7 +13,7 @@ import com.cho.navi.PostClickListener
 import com.cho.navi.data.Category
 import com.cho.navi.data.Post
 import com.cho.navi.databinding.FragmentPostCategoryBinding
-import com.cho.navi.util.Constants
+import com.cho.navi.util.NavigationConstants
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -46,9 +46,9 @@ class PostCategoryFragment : Fragment(), PostClickListener {
 
     private fun setCategory() {
         category = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arguments?.getSerializable(Constants.KEY_CATEGORY, Category::class.java)
+            arguments?.getSerializable(NavigationConstants.KEY_CATEGORY, Category::class.java)
         } else {
-            arguments?.getSerializable(Constants.KEY_CATEGORY) as? Category
+            arguments?.getSerializable(NavigationConstants.KEY_CATEGORY) as? Category
         } ?: Category.VIEW
     }
 
@@ -74,7 +74,7 @@ class PostCategoryFragment : Fragment(), PostClickListener {
         fun newInstance(category: Category): PostCategoryFragment {
             return PostCategoryFragment().apply {
                 arguments = Bundle().apply {
-                    putSerializable(Constants.KEY_CATEGORY, category)
+                    putSerializable(NavigationConstants.KEY_CATEGORY, category)
                 }
             }
         }
