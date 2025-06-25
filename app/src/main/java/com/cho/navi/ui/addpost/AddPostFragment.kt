@@ -1,10 +1,13 @@
 package com.cho.navi.ui.addpost
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -34,6 +37,14 @@ class AddPostFragment : Fragment() {
         AddPostViewModel.provideFactory(PostRepository(Firebase.firestore))
     }
 
+    private val pickPhoto =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
+            uri?.let {
+                binding.ibUploadImage.setImageURI(it)
+            }
+
+        }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,6 +65,9 @@ class AddPostFragment : Fragment() {
 
         binding.toolbarAddPost.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+        binding.ibUploadImage.setOnClickListener {
+            pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
         binding.btnConfirm.setOnClickListener {
             val post = Post(
