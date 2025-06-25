@@ -47,5 +47,9 @@
     <string name="label_selected">선택</string>
     <string name="label_top5">Top5</string>
     <string name="label_recommend_title">이런 곳은 어떠세요</string>
+    
+    <!-- PostDetail  -->
+    <string name="toast_error_load">불러오기 실패</string>
+
 
 </resources>

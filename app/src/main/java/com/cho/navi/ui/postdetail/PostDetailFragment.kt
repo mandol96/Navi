@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.edit
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -13,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.cho.navi.R
 import com.cho.navi.data.PostRepository
 import com.cho.navi.databinding.FragmentPostDetailBinding
 import com.google.firebase.firestore.ktx.firestore
@@ -71,10 +74,13 @@ class PostDetailFragment : Fragment() {
                 viewModel.uiState.collect { uiState ->
                     when (uiState) {
                         is PostDetailUiState.Loading -> {
-
+                            binding.progressCircular.isVisible = true
+                            binding.ibFavorite.isEnabled = false
                         }
 
                         is PostDetailUiState.Success -> {
+                            binding.progressCircular.isVisible = false
+                            binding.ibFavorite.isEnabled = true
                             binding.ibFavorite.isSelected = uiState.isLiked
                             binding.ibFavorite.setOnClickListener {
                                 viewModel.toggleLike(args.post.id, userId)
@@ -82,7 +88,10 @@ class PostDetailFragment : Fragment() {
                         }
 
                         is PostDetailUiState.Error -> {
-
+                            binding.progressCircular.isVisible = false
+                            binding.ibFavorite.isEnabled = false
+                            Toast.makeText(requireContext(),
+                                getString(R.string.toast_error_load), Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

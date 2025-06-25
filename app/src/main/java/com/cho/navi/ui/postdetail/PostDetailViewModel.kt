@@ -18,6 +18,7 @@ class PostDetailViewModel(
 
     fun loadLikeState(postId: String, userId: String) {
         viewModelScope.launch {
+            _uiState.value = PostDetailUiState.Loading
             repository.getLikeState(postId, userId)
                 .onSuccess { liked ->
                     _uiState.value = PostDetailUiState.Success(liked)
