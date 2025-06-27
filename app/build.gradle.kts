@@ -86,6 +86,8 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage.ktx)
 
+    //Glide
+    implementation(libs.glide)
 
     //Hilt
     implementation(libs.hilt.android)
