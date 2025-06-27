@@ -20,8 +20,8 @@ import com.cho.navi.data.Post
 import com.cho.navi.data.PostRepository
 import com.cho.navi.databinding.FragmentAddPostBinding
 import com.google.firebase.Firebase
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.storage
 import kotlinx.coroutines.launch
 
 class AddPostFragment : Fragment() {
@@ -34,15 +34,20 @@ class AddPostFragment : Fragment() {
     private var isValidPostDescription = false
 
     private val viewModel: AddPostViewModel by viewModels {
-        AddPostViewModel.provideFactory(PostRepository(Firebase.firestore))
+        AddPostViewModel.provideFactory(PostRepository(Firebase.firestore, Firebase.storage))
     }
 
-    private val pickPhoto =
-        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
-            uri?.let {
-                binding.ibUploadImage.setImageURI(it)
-            }
+    private val selectedImageUris = mutableListOf<Uri>()
 
+    private val pickMultiplePhotos =
+        registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
+            if (uris.isNotEmpty()) {
+                selectedImageUris.clear()
+                selectedImageUris.addAll(uris)
+                binding.ibUploadImage.setImageURI(uris.first())
+            } else {
+                Toast.makeText(requireContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_SHORT).show()
+            }
         }
 
     override fun onCreateView(
@@ -67,17 +72,16 @@ class AddPostFragment : Fragment() {
             findNavController().navigateUp()
         }
         binding.ibUploadImage.setOnClickListener {
-            pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            pickMultiplePhotos.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
         binding.btnConfirm.setOnClickListener {
             val post = Post(
                 category = binding.autoCompleteTvAddPostCategory.text.toString(),
                 title = binding.etPostTitle.text.toString(),
                 description = binding.etPostDescription.text.toString(),
-                createdAt = Timestamp.now(),
                 likeCount = 0
             )
-            viewModel.addPost(post)
+            viewModel.addPost(post, selectedImageUris)
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState

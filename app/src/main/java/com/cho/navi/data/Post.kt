@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 data class Post(
     val id: String = "",
     val category: String = "",
-    val imageUrls: List<String>? = null,
+    val imageUrls: List<String> = emptyList(),
     val title: String = "",
     val description: String = "",
     val location: String? = null,

@@ -2,11 +2,12 @@ package com.cho.navi.ui.post
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.cho.navi.PostClickListener
+import com.cho.navi.R
 import com.cho.navi.data.Post
 import com.cho.navi.databinding.ItemPostCategoryBinding
 
@@ -28,15 +29,20 @@ class PostCategoryAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(post: Post) {
-            val color = post.imageUrls?.getOrNull(0) ?: "#757575"
-            val colorInt = color.toColorInt()
-
             itemView.setOnClickListener {
                 listener.onPostClick(post)
             }
 
             with(binding) {
-                ivPostImage.setBackgroundColor(colorInt)
+                val imageUrl = post.imageUrls.first()
+
+                Glide.with(ivPostImage.context)
+                    .load(imageUrl)
+                    .placeholder(R.color.orange_700)
+                    .error(R.color.black)
+                    .centerCrop()
+                    .into(ivPostImage)
+
                 tvPostTitle.text = post.title
                 tvPostDescription.text = post.description
                 tvPostLocation.text = post.location

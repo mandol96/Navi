@@ -2,7 +2,6 @@ package com.cho.navi.ui.postdetail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.cho.navi.databinding.ItemPostDetailImageBinding
 
@@ -34,8 +33,7 @@ class PostDetailAdapter
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(image: String) {
-            val colorInt = image.toColorInt()
-            binding.ivPostDetailImage.setBackgroundColor(colorInt)
+            //TODO : Glide 활용하여 이미지 받아오기
         }
 
         companion object {
