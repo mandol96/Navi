@@ -1,9 +1,7 @@
 package com.cho.navi.ui.addspot
 
-import android.app.AlertDialog
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +10,17 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.cho.navi.data.Spot
 import com.cho.navi.databinding.FragmentAddSpotBinding
 import com.cho.navi.util.ResultKeys
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import java.util.UUID
 
 class AddSpotFragment : Fragment() {
 
@@ -86,23 +89,49 @@ class AddSpotFragment : Fragment() {
         }
 
         binding.btnConfirm.setOnClickListener {
-            val spot = Spot(
-                address = binding.tvSpotAddress.text.toString(),
-                name = binding.etSpotName.text.toString(),
-                description = binding.etSpotDescription.text.toString(),
-                imageUrls = null,
-            )
+            if (selectedImageUris.isEmpty()) {
+                Toast.makeText(requireContext(), "사진을 최소 1장 선택해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-            Firebase.firestore.collection("spots")
-                .add(spot)
-                .addOnSuccessListener {
-                    Toast.makeText(requireContext(), "장소 저장 완료", Toast.LENGTH_SHORT).show()
-                    findNavController().navigateUp()
+            val address = binding.tvSpotAddress.text.toString()
+            val name = binding.etSpotName.text.toString()
+            val description = binding.etSpotDescription.text.toString()
+
+            val imageUrls = mutableListOf<String>()
+            val storageRef = FirebaseStorage.getInstance().reference
+            val spotId = UUID.randomUUID().toString()
+
+            lifecycleScope.launch {
+                try {
+                    selectedImageUris.forEachIndexed { index, uri ->
+                        val imageRef = storageRef.child("spots/$spotId/image_$index.jpg")
+                        imageRef.putFile(uri).await()
+                        val downloadUrl = imageRef.downloadUrl.await().toString()
+                        imageUrls.add(downloadUrl)
+                    }
+
+                    val spot = Spot(
+                        address = address,
+                        name = name,
+                        description = description,
+                        imageUrls = imageUrls
+                    )
+
+                    Firebase.firestore.collection("spots")
+                        .add(spot)
+                        .addOnSuccessListener {
+                            Toast.makeText(requireContext(), "장소 저장 완료", Toast.LENGTH_SHORT).show()
+                            findNavController().navigateUp()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(requireContext(), "저장에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                        }
+
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), "사진 업로드 실패: ${e.message}", Toast.LENGTH_LONG).show()
                 }
-                .addOnFailureListener {
-                    Toast.makeText(requireContext(), "저장에 실패하였습니다.", Toast.LENGTH_SHORT)
-                        .show()
-                }
+            }
         }
     }
 
