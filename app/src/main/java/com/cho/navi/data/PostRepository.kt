@@ -77,27 +77,4 @@ class PostRepository(
                 .await()
         }
     }
-
-    suspend fun uploadImagesAndAddPost(post: Post, imageUris: List<Uri>): Result<Void> {
-        return runCatching {
-            val imageUrls = mutableListOf<String>()
-            for (uri in imageUris) {
-                val fileName = "post_images/${UUID.randomUUID()}.jpg"
-                val storageRef = FirebaseStorage.getInstance().reference.child(fileName)
-
-                storageRef.putFile(uri).await()
-                val downloadUrl = storageRef.downloadUrl.await().toString()
-                imageUrls.add(downloadUrl)
-            }
-
-            val postWithImages = post.copy(
-                imageUrls = imageUrls,
-                createdAt = Timestamp.now() // null 방지
-            )
-
-            val docRef = db.collection(FirestoreConstants.COLLECTION_POSTS).document()
-            val finalPost = postWithImages.copy(id = docRef.id)
-            docRef.set(finalPost).await()
-        }
-    }
 }
