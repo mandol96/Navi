@@ -3,6 +3,8 @@ package com.cho.navi.ui.postdetail
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.cho.navi.R
 import com.cho.navi.databinding.ItemPostDetailImageBinding
 
 class PostDetailAdapter
@@ -32,8 +34,13 @@ class PostDetailAdapter
         private val binding: ItemPostDetailImageBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(image: String) {
-            //TODO : Glide 활용하여 이미지 받아오기
+        fun bind(imageUrl: String) {
+            Glide.with(binding.ivPostDetailImage.context)
+                .load(imageUrl)
+                .placeholder(R.color.orange_700)
+                .error(R.color.black)
+                .centerCrop()
+                .into(binding.ivPostDetailImage)
         }
 
         companion object {
