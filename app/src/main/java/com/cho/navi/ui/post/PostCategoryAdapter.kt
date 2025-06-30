@@ -5,11 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.cho.navi.PostClickListener
-import com.cho.navi.R
 import com.cho.navi.data.Post
 import com.cho.navi.databinding.ItemPostCategoryBinding
+import com.cho.navi.ui.extensions.load
 
 class PostCategoryAdapter(
     private val listener: PostClickListener
@@ -35,14 +34,7 @@ class PostCategoryAdapter(
 
             with(binding) {
                 val imageUrl = post.imageUrls.first()
-
-                Glide.with(ivPostImage.context)
-                    .load(imageUrl)
-                    .placeholder(R.color.orange_700)
-                    .error(R.color.black)
-                    .centerCrop()
-                    .into(ivPostImage)
-
+                ivPostImage.load(imageUrl)
                 tvPostTitle.text = post.title
                 tvPostDescription.text = post.description
                 tvPostLocation.text = post.location

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cho.navi.R
 import com.cho.navi.databinding.ItemPostDetailImageBinding
+import com.cho.navi.ui.extensions.load
 
 class PostDetailAdapter
     : RecyclerView.Adapter<PostDetailAdapter.PostDetailViewHolder>() {
@@ -35,12 +36,7 @@ class PostDetailAdapter
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(imageUrl: String) {
-            Glide.with(binding.ivPostDetailImage.context)
-                .load(imageUrl)
-                .placeholder(R.color.orange_700)
-                .error(R.color.black)
-                .centerCrop()
-                .into(binding.ivPostDetailImage)
+            binding.ivPostDetailImage.load(imageUrl)
         }
 
         companion object {
