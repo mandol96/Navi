@@ -66,7 +66,7 @@ class PostDetailFragment : Fragment() {
             }
         }
 
-        post.imageUrls?.let { adapter.addImages(it) }
+        post.imageUrls.let { adapter.addImages(it) }
     }
 
     private fun collectUiState() {
