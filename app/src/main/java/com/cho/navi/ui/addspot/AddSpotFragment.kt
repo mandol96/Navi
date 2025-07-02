@@ -33,6 +33,8 @@ class AddSpotFragment : Fragment() {
     private var isValidSpotCategory = false
     private var isValidSpotName = false
     private var isValidSpotDescription = false
+    private var isValidSpotAddress = false
+    private var isValidSpotImages = false
 
     private val selectedImageUris = mutableListOf<Uri>()
 
@@ -52,9 +54,13 @@ class AddSpotFragment : Fragment() {
                 selectedImageUris.clear()
                 selectedImageUris.addAll(uris)
                 binding.ibUploadImage.setImageURI(uris.first())
+                isValidSpotImages = true
+                updateButtonEnabledState()
             } else {
-                Toast.makeText(requireContext(),
-                    getString(R.string.toast_unselected_message), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.toast_unselected_message), Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -95,10 +101,16 @@ class AddSpotFragment : Fragment() {
             if (address.isNullOrBlank()) {
                 binding.tvSpotOpenMap.visibility = View.VISIBLE
                 binding.tvSpotAddress.visibility = View.GONE
+
+                isValidSpotAddress = false
+                updateButtonEnabledState()
             } else {
                 binding.tvSpotAddress.text = address
                 binding.tvSpotOpenMap.visibility = View.INVISIBLE
                 binding.tvSpotAddress.visibility = View.VISIBLE
+
+                isValidSpotAddress = true
+                updateButtonEnabledState()
             }
         }
 
@@ -112,7 +124,7 @@ class AddSpotFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-                .collect {uiState ->
+                .collect { uiState ->
                     when (uiState) {
                         AddSpotUiState.Idle -> Unit
                         AddSpotUiState.Loading -> showProgress()
@@ -146,7 +158,7 @@ class AddSpotFragment : Fragment() {
 
     private fun updateButtonEnabledState() {
         binding.btnConfirm.isEnabled =
-            isValidSpotName && isValidSpotDescription && isValidSpotCategory
+            isValidSpotName && isValidSpotDescription && isValidSpotCategory && isValidSpotAddress && isValidSpotImages
     }
 
     private fun showProgress() {
