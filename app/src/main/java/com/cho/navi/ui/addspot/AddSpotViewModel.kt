@@ -1,5 +1,6 @@
 package com.cho.navi.ui.addspot
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
@@ -17,6 +18,9 @@ class AddSpotViewModel(
     private val _coordinates = MutableStateFlow<List<Position>>(emptyList())
     val coordinate = _coordinates.asStateFlow()
 
+    private val _uiState = MutableStateFlow<AddSpotUiState>(AddSpotUiState.Idle)
+    val uiState = _uiState.asStateFlow()
+
     fun loadSpots() {
         viewModelScope.launch {
             val items = mutableListOf<Position>()
@@ -27,6 +31,23 @@ class AddSpotViewModel(
         }
     }
 
+    fun addSpot(
+        address: String,
+        name: String,
+        description: String,
+        selectedImageUris: List<Uri>
+    ) {
+        viewModelScope.launch {
+            _uiState.value = AddSpotUiState.Loading
+            repository.addSpot(address, name, description, selectedImageUris)
+                .onSuccess {
+                    _uiState.value = AddSpotUiState.Success
+                }.onFailure {
+                    _uiState.value = AddSpotUiState.Error(it)
+                }
+        }
+    }
+
     companion object {
         fun provideFactory(repository: SpotRepository) = viewModelFactory {
             initializer {
@@ -34,4 +55,11 @@ class AddSpotViewModel(
             }
         }
     }
+}
+
+sealed interface AddSpotUiState {
+    data object Idle : AddSpotUiState
+    data object Loading : AddSpotUiState
+    data object Success : AddSpotUiState
+    data class Error(val exception: Throwable) : AddSpotUiState
 }

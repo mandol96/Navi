@@ -1,10 +1,13 @@
 package com.cho.navi.ui.addpost
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,8 +20,8 @@ import com.cho.navi.data.Post
 import com.cho.navi.data.PostRepository
 import com.cho.navi.databinding.FragmentAddPostBinding
 import com.google.firebase.Firebase
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.storage
 import kotlinx.coroutines.launch
 
 class AddPostFragment : Fragment() {
@@ -31,8 +34,21 @@ class AddPostFragment : Fragment() {
     private var isValidPostDescription = false
 
     private val viewModel: AddPostViewModel by viewModels {
-        AddPostViewModel.provideFactory(PostRepository(Firebase.firestore))
+        AddPostViewModel.provideFactory(PostRepository(Firebase.firestore, Firebase.storage))
     }
+
+    private val selectedImageUris = mutableListOf<Uri>()
+
+    private val pickMultiplePhotos =
+        registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
+            if (uris.isNotEmpty()) {
+                selectedImageUris.clear()
+                selectedImageUris.addAll(uris)
+                binding.ibUploadImage.setImageURI(uris.first())
+            } else {
+                Toast.makeText(requireContext(), getString(R.string.toast_unselected_message), Toast.LENGTH_SHORT).show()
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,15 +71,17 @@ class AddPostFragment : Fragment() {
         binding.toolbarAddPost.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+        binding.ibUploadImage.setOnClickListener {
+            pickMultiplePhotos.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
         binding.btnConfirm.setOnClickListener {
             val post = Post(
                 category = binding.autoCompleteTvAddPostCategory.text.toString(),
                 title = binding.etPostTitle.text.toString(),
                 description = binding.etPostDescription.text.toString(),
-                createdAt = Timestamp.now(),
                 likeCount = 0
             )
-            viewModel.addPost(post)
+            viewModel.addPost(post, selectedImageUris)
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState

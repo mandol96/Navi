@@ -1,21 +1,43 @@
 package com.cho.navi.data
 
+import android.net.Uri
 import com.cho.navi.util.FirestoreConstants
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
+import java.util.UUID
 
 class PostRepository(
-    private val db: FirebaseFirestore
+    private val db: FirebaseFirestore,
+    private val storage: FirebaseStorage
 ) {
 
     suspend fun addPost(
-        post: Post
+        post: Post,
+        imageUris: List<Uri>
     ): Result<DocumentReference> {
         return runCatching {
+            val imageUrls = mutableListOf<String>()
+
+            for (uri in imageUris) {
+                val fileName = "post_images/${UUID.randomUUID()}.jpg"
+                val imageRef = storage.reference.child(fileName)
+
+                imageRef.putFile(uri).await()
+                val downloadUrl = imageRef.downloadUrl.await().toString()
+                imageUrls.add(downloadUrl)
+            }
+
+            val postWithImages = post.copy(
+                imageUrls = imageUrls,
+                createdAt = Timestamp.now()
+            )
+
             val postData =
                 db.collection(FirestoreConstants.COLLECTION_POSTS)
-                    .add(post)
+                    .add(postWithImages)
                     .await()
             postData.update(FirestoreConstants.FIELD_ID, postData.id).await()
             postData

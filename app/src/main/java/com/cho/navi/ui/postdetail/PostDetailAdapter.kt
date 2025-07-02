@@ -2,9 +2,11 @@ package com.cho.navi.ui.postdetail
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.cho.navi.R
 import com.cho.navi.databinding.ItemPostDetailImageBinding
+import com.cho.navi.ui.extensions.load
 
 class PostDetailAdapter
     : RecyclerView.Adapter<PostDetailAdapter.PostDetailViewHolder>() {
@@ -33,9 +35,8 @@ class PostDetailAdapter
         private val binding: ItemPostDetailImageBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(image: String) {
-            val colorInt = image.toColorInt()
-            binding.ivPostDetailImage.setBackgroundColor(colorInt)
+        fun bind(imageUrl: String) {
+            binding.ivPostDetailImage.load(imageUrl)
         }
 
         companion object {

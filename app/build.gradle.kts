@@ -84,6 +84,10 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.storage.ktx)
+
+    //Glide
+    implementation(libs.glide)
 
     //Hilt
     implementation(libs.hilt.android)

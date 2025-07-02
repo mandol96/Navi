@@ -20,6 +20,7 @@ import com.cho.navi.data.PostRepository
 import com.cho.navi.databinding.FragmentPostDetailBinding
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -31,7 +32,7 @@ class PostDetailFragment : Fragment() {
     private lateinit var userId: String
 
     private val viewModel: PostDetailViewModel by viewModels {
-        PostDetailViewModel.provideFactory(PostRepository(Firebase.firestore))
+        PostDetailViewModel.provideFactory(PostRepository(Firebase.firestore, Firebase.storage))
     }
 
     override fun onCreateView(
@@ -65,7 +66,7 @@ class PostDetailFragment : Fragment() {
             }
         }
 
-        post.imageUrls?.let { adapter.addImages(it) }
+        post.imageUrls.let { adapter.addImages(it) }
     }
 
     private fun collectUiState() {
@@ -90,8 +91,10 @@ class PostDetailFragment : Fragment() {
                         is PostDetailUiState.Error -> {
                             binding.progressCircular.isVisible = false
                             binding.ibFavorite.isEnabled = false
-                            Toast.makeText(requireContext(),
-                                getString(R.string.toast_error_load), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                getString(R.string.toast_error_load), Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }

@@ -14,6 +14,7 @@ import com.cho.navi.databinding.FragmentMapBinding
 import com.cho.navi.ui.addspot.AddSpotViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.LatLng
@@ -30,7 +31,13 @@ class MapFragment : Fragment() {
 
     private var map: KakaoMap? = null
     private val viewModel: AddSpotViewModel by viewModels {
-        AddSpotViewModel.provideFactory(SpotRepository(NaviService.create(), Firebase.firestore))
+        AddSpotViewModel.provideFactory(
+            SpotRepository(
+                NaviService.create(),
+                Firebase.firestore,
+                Firebase.storage
+            )
+        )
     }
 
     override fun onCreateView(

@@ -1,5 +1,6 @@
 package com.cho.navi.ui.addpost
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
@@ -10,7 +11,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-
 class AddPostViewModel(
     private val repository: PostRepository
 ) : ViewModel() {
@@ -18,10 +18,10 @@ class AddPostViewModel(
     private val _uiState = MutableStateFlow<AddPostUiState>(AddPostUiState.Idle)
     val uiState = _uiState.asStateFlow()
 
-    fun addPost(post:Post) {
+    fun addPost(post: Post, imageUris: List<Uri>) {
         viewModelScope.launch {
             _uiState.value = AddPostUiState.Loading
-            repository.addPost(post)
+            repository.addPost(post, imageUris)
                 .onSuccess {
                     _uiState.value = AddPostUiState.Success
                 }.onFailure {
