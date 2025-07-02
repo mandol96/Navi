@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.cho.navi.data.Post
 import com.cho.navi.databinding.ItemRecommedationPostBinding
+import com.cho.navi.ui.extensions.load
 
 class RecommendationPostAdapter :
     RecyclerView.Adapter<RecommendationPostAdapter.RecommendationPostViewHolder>() {
@@ -37,6 +38,7 @@ class RecommendationPostAdapter :
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(post: Post) {
             binding.tvRecommendationTitle.text = post.title
+            binding.ivRecommendationImage.load(post.imageUrls.first())
         }
 
         companion object {

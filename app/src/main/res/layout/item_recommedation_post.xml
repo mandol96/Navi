@@ -37,6 +37,7 @@
         tools:text="게시글" />
 
     <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_recommendation_image"
         android:layout_width="380dp"
         android:layout_height="380dp"
         android:layout_marginTop="20dp"
