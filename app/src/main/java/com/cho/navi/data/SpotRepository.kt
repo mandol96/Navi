@@ -1,13 +1,17 @@
 package com.cho.navi.data
 
+import android.net.Uri
 import com.cho.navi.data.model.Address
 import com.cho.navi.data.source.remote.NaviService
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
+import java.util.UUID
 
 class SpotRepository(
     private val naviService: NaviService,
-    private val db: FirebaseFirestore
+    private val db: FirebaseFirestore,
+    private val storage: FirebaseStorage
 ) {
 
     suspend fun fetchSpots(onCoordinate: (Double, Double) -> Unit) {
@@ -35,5 +39,38 @@ class SpotRepository(
     suspend fun getAddressFromCoordinates(longitude: Double, latitude: Double): Address? {
         val response = naviService.getAddressFromCoordinates(longitude, latitude)
         return response.documents.firstOrNull()?.address
+    }
+
+    suspend fun addSpot(
+        address: String,
+        name: String,
+        description: String,
+        selectedImageUris: List<Uri>
+    ): Result<Unit> {
+        val imageUrls = mutableListOf<String>()
+        val storageRef = storage.reference
+        val spotId = UUID.randomUUID().toString()
+
+        return kotlin.runCatching {
+            selectedImageUris.forEachIndexed { index, uri ->
+                val imageRef = storageRef.child("spots/$spotId/image_$index.jpg")
+                imageRef.putFile(uri).await()
+                val downloadUrl = imageRef.downloadUrl.await().toString()
+                imageUrls.add(downloadUrl)
+            }
+
+            val spot = Spot(
+                id = spotId,
+                address = address,
+                imageUrls = imageUrls,
+                name = name,
+                description = description
+            )
+
+            db.collection("spots")
+                .document(spotId)
+                .set(spot)
+                .await()
+        }
     }
 }

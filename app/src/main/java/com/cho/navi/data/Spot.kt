@@ -5,8 +5,9 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Spot(
-    val address: String,
+    val id: String = "",
+    val address: String = "",
     val imageUrls: List<String> = emptyList(),
-    val name: String,
-    val description: String,
+    val name: String = "",
+    val description: String = "",
 ) : Parcelable

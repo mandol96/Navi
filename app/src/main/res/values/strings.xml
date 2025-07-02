@@ -38,18 +38,22 @@
     <string name="title_post_register">게시글 등록하기</string>
     <string name="label_title">제목</string>
     <string name="description_add_post">게시글 등록하기</string>
-    <string name="toast_save_post_message">게시글이 저장되었습니다.</string>
-    <string name="toast_error_post_message">저장 실패</string>
     <string name="label_select_spot">위치 선택하기</string>
     <string name="description_center_marker">고정 마커</string>
-    <string name="toast_error_load_map">지도를 불러오는 데 실패했어요.</string>
-    <string name="toast_error_load_address">주소 불러오기를 실패하였습니다</string>
+
     <string name="label_selected">선택</string>
     <string name="label_top5">Top5</string>
     <string name="label_recommend_title">이런 곳은 어떠세요</string>
 
     <!-- PostDetail  -->
     <string name="toast_error_load">불러오기 실패</string>
+
+    <!--  Toast -->
+    <string name="toast_unselected_message">이미지를 선택하지 않았습니다.</string>
+    <string name="toast_save_post_message">게시글이 저장되었습니다.</string>
+    <string name="toast_error_post_message">저장 실패</string>
+    <string name="toast_error_load_map">지도를 불러오는 데 실패했어요.</string>
+    <string name="toast_error_load_address">주소 불러오기를 실패하였습니다</string>
 
 
 </resources>

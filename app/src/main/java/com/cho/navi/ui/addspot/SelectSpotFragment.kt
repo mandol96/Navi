@@ -25,6 +25,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.LatLng
@@ -40,7 +41,13 @@ class SelectSpotFragment : Fragment() {
     private var map: KakaoMap? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private val viewModel: SelectSpotViewModel by viewModels {
-        SelectSpotViewModel.provideFactory(SpotRepository(NaviService.create(), Firebase.firestore))
+        SelectSpotViewModel.provideFactory(
+            SpotRepository(
+                NaviService.create(),
+                Firebase.firestore,
+                Firebase.storage
+            )
+        )
     }
 
     override fun onCreateView(

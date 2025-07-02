@@ -46,7 +46,7 @@ class AddPostFragment : Fragment() {
                 selectedImageUris.addAll(uris)
                 binding.ibUploadImage.setImageURI(uris.first())
             } else {
-                Toast.makeText(requireContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.toast_unselected_message), Toast.LENGTH_SHORT).show()
             }
         }
 

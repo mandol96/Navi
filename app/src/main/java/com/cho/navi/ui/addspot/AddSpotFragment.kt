@@ -10,17 +10,20 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.cho.navi.data.Spot
+import com.cho.navi.R
+import com.cho.navi.data.SpotRepository
+import com.cho.navi.data.source.remote.NaviService
 import com.cho.navi.databinding.FragmentAddSpotBinding
 import com.cho.navi.util.ResultKeys
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import java.util.UUID
 
 class AddSpotFragment : Fragment() {
 
@@ -33,6 +36,16 @@ class AddSpotFragment : Fragment() {
 
     private val selectedImageUris = mutableListOf<Uri>()
 
+    private val viewModel: AddSpotViewModel by viewModels {
+        AddSpotViewModel.provideFactory(
+            SpotRepository(
+                NaviService.create(),
+                Firebase.firestore,
+                Firebase.storage
+            )
+        )
+    }
+
     private val pickMultiplePhotos =
         registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->
             if (uris.isNotEmpty()) {
@@ -40,7 +53,8 @@ class AddSpotFragment : Fragment() {
                 selectedImageUris.addAll(uris)
                 binding.ibUploadImage.setImageURI(uris.first())
             } else {
-                Toast.makeText(requireContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(),
+                    getString(R.string.toast_unselected_message), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -89,49 +103,23 @@ class AddSpotFragment : Fragment() {
         }
 
         binding.btnConfirm.setOnClickListener {
-            if (selectedImageUris.isEmpty()) {
-                Toast.makeText(requireContext(), "사진을 최소 1장 선택해주세요.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
             val address = binding.tvSpotAddress.text.toString()
             val name = binding.etSpotName.text.toString()
             val description = binding.etSpotDescription.text.toString()
 
-            val imageUrls = mutableListOf<String>()
-            val storageRef = FirebaseStorage.getInstance().reference
-            val spotId = UUID.randomUUID().toString()
-
-            lifecycleScope.launch {
-                try {
-                    selectedImageUris.forEachIndexed { index, uri ->
-                        val imageRef = storageRef.child("spots/$spotId/image_$index.jpg")
-                        imageRef.putFile(uri).await()
-                        val downloadUrl = imageRef.downloadUrl.await().toString()
-                        imageUrls.add(downloadUrl)
+            viewModel.addSpot(address, name, description, selectedImageUris)
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.uiState
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                .collect {uiState ->
+                    when (uiState) {
+                        AddSpotUiState.Idle -> Unit
+                        AddSpotUiState.Loading -> showProgress()
+                        AddSpotUiState.Success -> completeTask()
+                        is AddSpotUiState.Error -> showError()
                     }
-
-                    val spot = Spot(
-                        address = address,
-                        name = name,
-                        description = description,
-                        imageUrls = imageUrls
-                    )
-
-                    Firebase.firestore.collection("spots")
-                        .add(spot)
-                        .addOnSuccessListener {
-                            Toast.makeText(requireContext(), "장소 저장 완료", Toast.LENGTH_SHORT).show()
-                            findNavController().navigateUp()
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(requireContext(), "저장에 실패하였습니다.", Toast.LENGTH_SHORT).show()
-                        }
-
-                } catch (e: Exception) {
-                    Toast.makeText(requireContext(), "사진 업로드 실패: ${e.message}", Toast.LENGTH_LONG).show()
                 }
-            }
         }
     }
 
@@ -159,6 +147,32 @@ class AddSpotFragment : Fragment() {
     private fun updateButtonEnabledState() {
         binding.btnConfirm.isEnabled =
             isValidSpotName && isValidSpotDescription && isValidSpotCategory
+    }
+
+    private fun showProgress() {
+        binding.progressCircular.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        binding.progressCircular.visibility = View.GONE
+    }
+
+    private fun completeTask() {
+        hideProgress()
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.toast_save_post_message), Toast.LENGTH_SHORT
+        ).show()
+        findNavController().navigateUp()
+    }
+
+    private fun showError() {
+        hideProgress()
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.toast_error_post_message), Toast.LENGTH_SHORT
+        )
+            .show()
     }
 
     override fun onDestroyView() {
