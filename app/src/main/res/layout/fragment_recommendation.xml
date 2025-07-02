@@ -23,54 +23,14 @@
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <TextView
-        android:id="@+id/tv_title_top5"
-        style="@style/AppTextTitle.Bold"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_recommendation_post"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/label_top5"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar_recommendation" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_top5"
-        android:layout_width="0dp"
-        android:layout_height="240dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@id/tv_recommendation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_top5" />
-
-    <TextView
-        android:id="@+id/tv_recommendation"
-        style="@style/AppTextTitle.Bold"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/label_recommend_title"
-        app:layout_constraintBottom_toTopOf="@id/rv_recommendation"
-        app:layout_constraintEnd_toEndOf="@id/tv_title_top5"
-        app:layout_constraintStart_toStartOf="@id/tv_title_top5"
-        app:layout_constraintTop_toBottomOf="@id/rv_top5" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_recommendation"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/tv_title_top5"
-        app:layout_constraintStart_toStartOf="@id/tv_title_top5"
-        app:layout_constraintTop_toBottomOf="@id/tv_recommendation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
