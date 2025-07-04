@@ -33,7 +33,7 @@
         android:id="@+id/navigation_recommendation"
         android:name="com.cho.navi.ui.recommendation.RecommendationFragment"
         android:label="RankFragment"
-        tools:layout="@layout/fragment_recommendation" >
+        tools:layout="@layout/fragment_recommendation">
         <action
             android:id="@+id/action_recommendation_to_my_page"
             app:destination="@id/navigation_my_page" />
@@ -69,11 +69,18 @@
             android:name="post"
             app:argType="com.cho.navi.data.Post" />
     </fragment>
-    <action
-        android:id="@+id/action_global_post_detail"
-        app:destination="@id/navigation_post_detail" />
     <fragment
         android:id="@+id/navigation_select_spot"
         android:name="com.cho.navi.ui.addspot.SelectSpotFragment"
-        android:label="SelectSpotFragment"/>
+        android:label="SelectSpotFragment" />
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.cho.navi.ui.login.LoginFragment"
+        android:label="LoginFragment" />
+    <action
+        android:id="@+id/action_global_post_detail"
+        app:destination="@id/navigation_post_detail" />
+    <action
+        android:id="@+id/action_global_login"
+        app:destination="@id/navigation_login" />
 </navigation>
