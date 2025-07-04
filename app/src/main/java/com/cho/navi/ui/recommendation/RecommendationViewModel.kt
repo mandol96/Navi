@@ -24,7 +24,7 @@ class RecommendationViewModel(
                 .onSuccess { posts ->
                     _uiState.value = RecommendationUiState.Success(posts)
                 }.onFailure {
-                    _uiState.value = RecommendationUiState.Error("불러오기 실패")
+                    _uiState.value = RecommendationUiState.Error(it)
                 }
         }
     }
@@ -41,5 +41,5 @@ class RecommendationViewModel(
 sealed class RecommendationUiState {
     data object Loading : RecommendationUiState()
     data class Success(val posts: List<Post>) : RecommendationUiState()
-    data class Error(val message: String) : RecommendationUiState()
+    data class Error(val exception: Throwable) : RecommendationUiState()
 }
