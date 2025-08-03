@@ -71,6 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:clickable="true"
+        android:focusable="true"
         android:gravity="center"
         android:text="회원가입"
         app:layout_constraintEnd_toEndOf="@id/ti_login_id"
