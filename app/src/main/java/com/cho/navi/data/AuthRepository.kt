@@ -38,4 +38,8 @@ class AuthRepository(
             auth.signInWithCredential(firebaseCredential).await().user
         }
     }
+
+    fun getCurrentUser(): FirebaseUser? {
+        return auth.currentUser
+    }
 }
