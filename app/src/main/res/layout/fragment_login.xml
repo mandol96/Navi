@@ -79,6 +79,7 @@
         app:layout_constraintTop_toBottomOf="@id/btn_login" />
 
     <ImageButton
+        android:id="@+id/ib_google_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/description_google_continue"
