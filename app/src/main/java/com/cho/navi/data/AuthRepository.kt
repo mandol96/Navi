@@ -27,6 +27,7 @@ class AuthRepository(
                 .addCredentialOption(googleIdOption)
                 .build()
 
+//            try {
             val result = credentialManager.getCredential(context, request)
             val credential = result.credential
 
@@ -36,6 +37,10 @@ class AuthRepository(
             val firebaseCredential = GoogleAuthProvider.getCredential(googleIdToken, null)
 
             auth.signInWithCredential(firebaseCredential).await().user
+//            } catch (e: GetCredentialException) {
+//                Log.e("CredentialManager", "No credential available", e)
+//                null
+//            }
         }
     }
 
