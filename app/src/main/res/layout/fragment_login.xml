@@ -78,5 +78,16 @@
         app:layout_constraintStart_toStartOf="@id/ti_login_id"
         app:layout_constraintTop_toBottomOf="@id/btn_login" />
 
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/description_google_continue"
+        android:src="@drawable/ic_google_login"
+        android:background="@color/white"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="@id/btn_login"
+        app:layout_constraintStart_toStartOf="@id/btn_login"
+        app:layout_constraintTop_toBottomOf="@id/tv_register" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
