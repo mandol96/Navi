@@ -3,6 +3,8 @@ package com.cho.navi.data
 import android.content.Context
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.exceptions.NoCredentialException
 import com.cho.navi.BuildConfig
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -18,17 +20,35 @@ class AuthRepository(
 
     suspend fun signInWithGoogle(context: Context): Result<FirebaseUser?> {
         return runCatching {
-            val googleIdOption = GetGoogleIdOption.Builder()
+            val authorizedIdOption = GetGoogleIdOption.Builder()
+                .setFilterByAuthorizedAccounts(true)
+                .setServerClientId(BuildConfig.CLIENT_ID)
+                .setAutoSelectEnabled(true)
+                .build()
+
+            val allAccountsOption = GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(false)
                 .setServerClientId(BuildConfig.CLIENT_ID)
                 .build()
 
             val request = GetCredentialRequest.Builder()
-                .addCredentialOption(googleIdOption)
+                .addCredentialOption(authorizedIdOption)
+                .addCredentialOption(allAccountsOption)
                 .build()
 
-//            try {
-            val result = credentialManager.getCredential(context, request)
+
+            val result = try {
+                credentialManager.getCredential(context, request)
+            } catch (e: Exception) {
+                if (e is GetCredentialException) {
+                    val fallbackRequest = GetCredentialRequest.Builder()
+                        .addCredentialOption(allAccountsOption)
+                        .build()
+                    credentialManager.getCredential(context, fallbackRequest)
+                } else {
+                    throw e
+                }
+            }
             val credential = result.credential
 
             val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
@@ -37,10 +57,6 @@ class AuthRepository(
             val firebaseCredential = GoogleAuthProvider.getCredential(googleIdToken, null)
 
             auth.signInWithCredential(firebaseCredential).await().user
-//            } catch (e: GetCredentialException) {
-//                Log.e("CredentialManager", "No credential available", e)
-//                null
-//            }
         }
     }
 
