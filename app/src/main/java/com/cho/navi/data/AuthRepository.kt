@@ -39,15 +39,11 @@ class AuthRepository(
 
             val result = try {
                 credentialManager.getCredential(context, request)
-            } catch (e: Exception) {
-                if (e is GetCredentialException) {
+            } catch (e: GetCredentialException) {
                     val fallbackRequest = GetCredentialRequest.Builder()
                         .addCredentialOption(allAccountsOption)
                         .build()
                     credentialManager.getCredential(context, fallbackRequest)
-                } else {
-                    throw e
-                }
             }
             val credential = result.credential
 
