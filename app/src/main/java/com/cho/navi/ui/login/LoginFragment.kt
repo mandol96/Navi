@@ -12,6 +12,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.cho.navi.data.auth.AuthRepository
+import com.cho.navi.data.auth.GoogleSignInClient
 import com.cho.navi.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
@@ -23,10 +24,8 @@ class LoginFragment : Fragment() {
 
     private val viewModel: LoginViewModel by viewModels {
         LoginViewModel.provideFactory(
-            AuthRepository(
-                CredentialManager.create(requireContext()),
-                FirebaseAuth.getInstance()
-            )
+            AuthRepository(FirebaseAuth.getInstance()),
+            GoogleSignInClient(requireContext(), CredentialManager.create(requireContext()))
         )
     }
 
@@ -48,7 +47,7 @@ class LoginFragment : Fragment() {
         }
 
         binding.ibGoogleLogin.setOnClickListener {
-            viewModel.signInWithGoogle(requireActivity())
+            viewModel.signInWithGoogle()
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
