@@ -66,5 +66,7 @@
     <string name="dialog_message_require_login">이 기능을 사용하려면 먼저 로그인을 해야합니다. 로그인 화면으로 이동할까요?</string>
     <string name="dialog_positive_require_login">로그인</string>
     <string name="dialog_negative_require_login">다음에</string>
+    <string name="error_login_failed">로그인 실패</string>
+    <string name="error_get_token_failed">토큰 가져오기 실패</string>
 
 </resources>

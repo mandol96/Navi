@@ -1,9 +1,11 @@
 package com.cho.navi.ui.login
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.cho.navi.R
 import com.cho.navi.data.auth.AuthRepository
 import com.cho.navi.data.auth.GoogleSignInClient
 import com.google.firebase.auth.FirebaseUser
@@ -30,11 +32,11 @@ class LoginViewModel(
                             _loginState.value = LoginUiState.Success(user)
                         }
                         .onFailure {
-                            _loginState.value = LoginUiState.Error("로그인 실패")
+                            _loginState.value = LoginUiState.Error(R.string.error_login_failed)
                         }
                 }
                 .onFailure {
-                    _loginState.value = LoginUiState.Error("토큰 가져오기 실패")
+                    _loginState.value = LoginUiState.Error(R.string.error_get_token_failed)
                 }
         }
     }
@@ -53,5 +55,5 @@ sealed class LoginUiState {
     object Idle : LoginUiState()
     object Loading : LoginUiState()
     data class Success(val currentUser: FirebaseUser?) : LoginUiState()
-    data class Error(val message: String) : LoginUiState()
+    data class Error(@StringRes val message: Int) : LoginUiState()
 }
