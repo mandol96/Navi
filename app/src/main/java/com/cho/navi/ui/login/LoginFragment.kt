@@ -11,7 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.cho.navi.data.AuthRepository
+import com.cho.navi.data.auth.AuthRepository
 import com.cho.navi.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch

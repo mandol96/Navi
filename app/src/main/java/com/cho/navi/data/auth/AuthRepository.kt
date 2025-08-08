@@ -1,10 +1,9 @@
-package com.cho.navi.data
+package com.cho.navi.data.auth
 
 import android.content.Context
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
-import androidx.credentials.exceptions.NoCredentialException
 import com.cho.navi.BuildConfig
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -47,7 +46,7 @@ class AuthRepository(
             }
             val credential = result.credential
 
-            val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+            val googleIdTokenCredential = GoogleIdTokenCredential.Companion.createFrom(credential.data)
             val googleIdToken = googleIdTokenCredential.idToken
 
             val firebaseCredential = GoogleAuthProvider.getCredential(googleIdToken, null)
