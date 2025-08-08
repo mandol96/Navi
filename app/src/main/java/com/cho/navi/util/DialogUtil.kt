@@ -1,6 +1,7 @@
 package com.cho.navi.util
 
 import android.content.Context
+import com.cho.navi.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 object DialogUtil {
@@ -10,12 +11,13 @@ object DialogUtil {
         onConfirm: () -> Unit
     ) {
         MaterialAlertDialogBuilder(context)
-            .setTitle("로그인이 필요합니다.")
-            .setMessage("이 기능을 사용하려면 먼저 로그인을 해야합니다. 로그인 화면으로 이동할까요?")
-            .setPositiveButton("로그인") { dialog, which ->
+            .setTitle(context.getString(R.string.dialog_title_require_login))
+            .setMessage(context.getString(R.string.dialog_message_require_login))
+            .setPositiveButton(context.getString(R.string.dialog_positive_require_login))
+            { dialog, which ->
                 onConfirm()
             }
-            .setNegativeButton("다음에", null)
+            .setNegativeButton(context.getString(R.string.dialog_negative_require_login), null)
             .show()
     }
 }
