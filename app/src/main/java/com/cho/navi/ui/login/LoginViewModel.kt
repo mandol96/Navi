@@ -16,8 +16,6 @@ class LoginViewModel(
     private val signInClient: GoogleSignInClient,
 ) : ViewModel() {
 
-    private val currentUser = repository.getCurrentUser()
-
     private val _loginState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
     val loginState: StateFlow<LoginUiState> = _loginState
 
