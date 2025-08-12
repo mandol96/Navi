@@ -3,6 +3,7 @@ package com.cho.navi.data
 import android.net.Uri
 import com.cho.navi.util.FirestoreConstants
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 class PostRepository @Inject constructor(
     private val db: FirebaseFirestore,
-    private val storage: FirebaseStorage
+    private val storage: FirebaseStorage,
+    private val auth: FirebaseAuth
 ) {
 
     suspend fun addPost(
@@ -21,6 +23,8 @@ class PostRepository @Inject constructor(
     ): Result<DocumentReference> {
         return runCatching {
             val imageUrls = mutableListOf<String>()
+
+            val currentUser = auth.currentUser
 
             for (uri in imageUris) {
                 val fileName = "post_images/${UUID.randomUUID()}.jpg"
@@ -33,7 +37,8 @@ class PostRepository @Inject constructor(
 
             val postWithImages = post.copy(
                 imageUrls = imageUrls,
-                createdAt = Timestamp.now()
+                nickName = currentUser?.displayName!!,
+                createdAt = Timestamp.now(),
             )
 
             val postData =

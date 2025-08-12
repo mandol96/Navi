@@ -8,13 +8,17 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.cho.navi.data.Category
 import com.cho.navi.databinding.FragmentPostBinding
+import com.cho.navi.util.AuthManager
+import com.cho.navi.util.DialogUtil
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
 
 class PostFragment : Fragment() {
 
     private var _binding: FragmentPostBinding? = null
     private val binding get() = _binding!!
     private val postCategories = Category.entries
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,12 +41,26 @@ class PostFragment : Fragment() {
         }.attach()
 
         binding.fabAddPost.setOnClickListener {
-            val action = PostFragmentDirections.actionPostToAddPost()
-            findNavController().navigate(action)
+            if (AuthManager.isLoggedIn()) {
+                val action = PostFragmentDirections.actionPostToAddPost()
+                findNavController().navigate(action)
+            } else {
+                DialogUtil.showLoginRequiredDialog(requireContext()) {
+                    val action = PostFragmentDirections.actionGlobalLogin()
+                    findNavController().navigate(action)
+                }
+            }
         }
         binding.ibMyPage.setOnClickListener {
-            val action = PostFragmentDirections.actionPostToMyPage()
-            findNavController().navigate(action)
+            if (AuthManager.isLoggedIn()) {
+                val action = PostFragmentDirections.actionPostToMyPage()
+                findNavController().navigate(action)
+            } else {
+                DialogUtil.showLoginRequiredDialog(requireContext()) {
+                    val action = PostFragmentDirections.actionGlobalLogin()
+                    findNavController().navigate(action)
+                }
+            }
         }
     }
 

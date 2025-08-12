@@ -18,6 +18,7 @@ import androidx.navigation.fragment.navArgs
 import com.cho.navi.R
 import com.cho.navi.data.PostRepository
 import com.cho.navi.databinding.FragmentPostDetailBinding
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -32,7 +33,13 @@ class PostDetailFragment : Fragment() {
     private lateinit var userId: String
 
     private val viewModel: PostDetailViewModel by viewModels {
-        PostDetailViewModel.provideFactory(PostRepository(Firebase.firestore, Firebase.storage))
+        PostDetailViewModel.provideFactory(
+            PostRepository(
+                Firebase.firestore,
+                Firebase.storage,
+                Firebase.auth
+            )
+        )
     }
 
     override fun onCreateView(
@@ -58,6 +65,7 @@ class PostDetailFragment : Fragment() {
 
         with(binding) {
             tvPostDetailLocation.text = post.location
+            tvPostDetailNickName.text = post.nickName
             tvPostDetailTitle.text = post.title
             tvPostDetailDescription.text = post.description
             rvPostDetailImage.adapter = adapter

@@ -12,6 +12,6 @@ fun ImageView.load(url: String?) {
             .error(R.drawable.ic_image_not_supported)
             .into(this)
     } else {
-        setImageResource(R.drawable.ic_image_not_supported)
+        setImageResource(R.drawable.navi)
     }
 }
