@@ -38,7 +38,7 @@ class RecommendationPostAdapter :
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(post: Post) {
             binding.tvRecommendationTitle.text = post.title
-            binding.ivRecommendationImage.load(post.imageUrls.first())
+            binding.ivRecommendationImage.load(post.imageUrls.firstOrNull())
         }
 
         companion object {

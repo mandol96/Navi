@@ -13,5 +13,6 @@ data class Post(
     val description: String = "",
     val location: String? = null,
     val createdAt: Timestamp? = null,
-    val likeCount: Int = 0
+    val likeCount: Int = 0,
+    val nickName: String = "",
 ) : Parcelable

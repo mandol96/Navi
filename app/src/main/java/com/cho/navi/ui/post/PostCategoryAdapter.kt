@@ -33,7 +33,7 @@ class PostCategoryAdapter(
             }
 
             with(binding) {
-                val imageUrl = post.imageUrls.first()
+                val imageUrl = post.imageUrls.firstOrNull()
                 ivPostImage.load(imageUrl)
                 tvPostTitle.text = post.title
                 tvPostDescription.text = post.description
