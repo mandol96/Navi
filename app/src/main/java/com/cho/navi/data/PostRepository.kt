@@ -36,7 +36,7 @@ class PostRepository(
 
             val postWithImages = post.copy(
                 imageUrls = imageUrls,
-                nickName = currentUser?.displayName ?: "소금빵",
+                nickName = currentUser?.displayName!!,
                 createdAt = Timestamp.now(),
             )
 
