@@ -54,14 +54,6 @@ class PostDetailViewModel @Inject constructor(
             }
         }
     }
-
-    companion object {
-        fun provideFactory(repository: PostRepository) = viewModelFactory {
-            initializer {
-                PostDetailViewModel(repository)
-            }
-        }
-    }
 }
 
 sealed class PostDetailUiState {

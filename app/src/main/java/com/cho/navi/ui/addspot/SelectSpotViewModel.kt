@@ -31,14 +31,6 @@ class SelectSpotViewModel @Inject constructor(
             }
         }
     }
-
-    companion object {
-        fun provideFactory(repository: SpotRepository) = viewModelFactory {
-            initializer {
-                SelectSpotViewModel(repository)
-            }
-        }
-    }
 }
 
 sealed interface SelectSpotUiState {

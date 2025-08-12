@@ -32,14 +32,6 @@ class AddPostViewModel @Inject constructor(
                 }
         }
     }
-
-    companion object {
-        fun provideFactory(repository: PostRepository) = viewModelFactory {
-            initializer {
-                AddPostViewModel(repository)
-            }
-        }
-    }
 }
 
 sealed interface AddPostUiState {

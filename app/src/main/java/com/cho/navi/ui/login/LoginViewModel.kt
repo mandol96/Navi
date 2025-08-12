@@ -43,15 +43,6 @@ class LoginViewModel @Inject constructor(
                 }
         }
     }
-
-    companion object {
-        fun provideFactory(repository: AuthRepository, signInClient: GoogleSignInClient) =
-            viewModelFactory {
-                initializer {
-                    LoginViewModel(repository, signInClient)
-                }
-            }
-    }
 }
 
 sealed class LoginUiState {

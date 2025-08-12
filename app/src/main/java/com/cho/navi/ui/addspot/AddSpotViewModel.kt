@@ -50,14 +50,6 @@ class AddSpotViewModel @Inject constructor(
                 }
         }
     }
-
-    companion object {
-        fun provideFactory(repository: SpotRepository) = viewModelFactory {
-            initializer {
-                AddSpotViewModel(repository)
-            }
-        }
-    }
 }
 
 sealed interface AddSpotUiState {
