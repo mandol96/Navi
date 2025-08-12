@@ -23,7 +23,7 @@ class PostRepository(
         return runCatching {
             val imageUrls = mutableListOf<String>()
 
-            val currentUser = auth.currentUser ?: throw IllegalStateException("로그인된 사용자가 없습니다.")
+            val currentUser = auth.currentUser
 
             for (uri in imageUris) {
                 val fileName = "post_images/${UUID.randomUUID()}.jpg"
@@ -36,7 +36,7 @@ class PostRepository(
 
             val postWithImages = post.copy(
                 imageUrls = imageUrls,
-                nickName = currentUser.displayName ?: "소금빵",
+                nickName = currentUser?.displayName ?: "소금빵",
                 createdAt = Timestamp.now(),
             )
 
