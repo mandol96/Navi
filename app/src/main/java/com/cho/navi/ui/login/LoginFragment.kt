@@ -15,19 +15,16 @@ import com.cho.navi.data.auth.AuthRepository
 import com.cho.navi.data.auth.GoogleSignInClient
 import com.cho.navi.databinding.FragmentLoginBinding
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: LoginViewModel by viewModels {
-        LoginViewModel.provideFactory(
-            AuthRepository(FirebaseAuth.getInstance()),
-            GoogleSignInClient(requireContext(), CredentialManager.create(requireContext()))
-        )
-    }
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
