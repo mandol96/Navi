@@ -8,8 +8,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
+import javax.inject.Inject
 
-class PostRepository(
+class PostRepository @Inject constructor(
     private val db: FirebaseFirestore,
     private val storage: FirebaseStorage
 ) {
