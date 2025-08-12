@@ -68,6 +68,7 @@ class LoginFragment : Fragment() {
                         is LoginUiState.Success -> {
                             binding.progressCircular.visibility = View.GONE
                             binding.ibGoogleLogin.isEnabled = true
+                            findNavController().popBackStack()
                         }
 
                         is LoginUiState.Error -> {

@@ -15,35 +15,25 @@ class GoogleSignInClient(
 
     suspend fun getGoogleIdToken(): Result<String> {
         return runCatching {
-            val authorizedIdOption = GetGoogleIdOption.Builder()
-                .setFilterByAuthorizedAccounts(true)
-                .setServerClientId(BuildConfig.CLIENT_ID)
-                .setAutoSelectEnabled(true)
-                .build()
 
             val allAccountsOption = GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(false)
                 .setServerClientId(BuildConfig.CLIENT_ID)
+                .setAutoSelectEnabled(true)
                 .build()
 
             val request = GetCredentialRequest.Builder()
-                .addCredentialOption(authorizedIdOption)
                 .addCredentialOption(allAccountsOption)
                 .build()
-
 
             val result = try {
                 credentialManager.getCredential(context, request)
             } catch (e: GetCredentialException) {
-                val fallbackRequest = GetCredentialRequest.Builder()
-                    .addCredentialOption(allAccountsOption)
-                    .build()
-                credentialManager.getCredential(context, fallbackRequest)
+                throw e
             }
             val credential = result.credential
 
-            val googleIdTokenCredential =
-                GoogleIdTokenCredential.Companion.createFrom(credential.data)
+            val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
 
             googleIdTokenCredential.idToken
         }
