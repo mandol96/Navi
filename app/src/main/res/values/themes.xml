@@ -5,5 +5,7 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.Navi" parent="Base.Theme.Navi" />
+    <style name="Theme.Navi" parent="Base.Theme.Navi">
+        <item name="android:windowBackground">@color/white</item>
+    </style>
 </resources>

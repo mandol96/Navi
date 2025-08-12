@@ -28,6 +28,7 @@ android {
 
         buildConfigField("String", "KAKAO_API_KEY", "\"${properties["kakaoapi.key"]}\"")
         buildConfigField("String", "KAKAO_REST_API_KEY", "\"${properties["kakaorestapi.key"]}\"")
+        buildConfigField("String", "CLIENT_ID", "\"${properties["client.id"]}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -85,6 +86,11 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage.ktx)
+    implementation(libs.firebase.auth)
+
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
 
     //Glide
     implementation(libs.glide)

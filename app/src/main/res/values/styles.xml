@@ -50,6 +50,12 @@
         <item name="hintEnabled">false</item>
     </style>
 
+    <style name="AppTextLoginField" parent="Widget.Material3.TextInputLayout.FilledBox">
+        <item name="boxStrokeColor">@color/orange_700</item>
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="hintTextColor">@color/grey_01</item>
+    </style>
+
     <style name="AppImageShape">
         <item name="cornerSize">12dp</item>
     </style>

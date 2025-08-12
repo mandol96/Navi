@@ -12,6 +12,8 @@ import com.cho.navi.data.SpotRepository
 import com.cho.navi.data.source.remote.NaviService
 import com.cho.navi.databinding.FragmentMapBinding
 import com.cho.navi.ui.addspot.AddSpotViewModel
+import com.cho.navi.util.AuthManager
+import com.cho.navi.util.DialogUtil
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -82,7 +84,14 @@ class MapFragment : Fragment() {
         }
 
         binding.ibMyPage.setOnClickListener {
-            findNavController().navigate(R.id.action_map_to_my_page)
+            if (AuthManager.isLoggedIn()) {
+                findNavController().navigate(R.id.action_map_to_my_page)
+            } else {
+                DialogUtil.showLoginRequiredDialog(requireContext()) {
+                    val action = MapFragmentDirections.actionGlobalLogin()
+                    findNavController().navigate(action)
+                }
+            }
         }
     }
 
