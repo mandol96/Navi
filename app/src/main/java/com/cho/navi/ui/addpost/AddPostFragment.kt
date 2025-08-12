@@ -20,6 +20,7 @@ import com.cho.navi.data.Post
 import com.cho.navi.data.PostRepository
 import com.cho.navi.databinding.FragmentAddPostBinding
 import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.launch
@@ -34,7 +35,13 @@ class AddPostFragment : Fragment() {
     private var isValidPostDescription = false
 
     private val viewModel: AddPostViewModel by viewModels {
-        AddPostViewModel.provideFactory(PostRepository(Firebase.firestore, Firebase.storage))
+        AddPostViewModel.provideFactory(
+            PostRepository(
+                Firebase.firestore,
+                Firebase.storage,
+                Firebase.auth
+            )
+        )
     }
 
     private val selectedImageUris = mutableListOf<Uri>()
@@ -46,7 +53,11 @@ class AddPostFragment : Fragment() {
                 selectedImageUris.addAll(uris)
                 binding.ibUploadImage.setImageURI(uris.first())
             } else {
-                Toast.makeText(requireContext(), getString(R.string.toast_unselected_message), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.toast_unselected_message),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 

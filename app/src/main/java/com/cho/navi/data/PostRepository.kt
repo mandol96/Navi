@@ -3,6 +3,7 @@ package com.cho.navi.data
 import android.net.Uri
 import com.cho.navi.util.FirestoreConstants
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -11,7 +12,8 @@ import java.util.UUID
 
 class PostRepository(
     private val db: FirebaseFirestore,
-    private val storage: FirebaseStorage
+    private val storage: FirebaseStorage,
+    private val auth: FirebaseAuth
 ) {
 
     suspend fun addPost(
@@ -20,6 +22,8 @@ class PostRepository(
     ): Result<DocumentReference> {
         return runCatching {
             val imageUrls = mutableListOf<String>()
+
+            val currentUser = auth.currentUser ?: throw IllegalStateException("로그인된 사용자가 없습니다.")
 
             for (uri in imageUris) {
                 val fileName = "post_images/${UUID.randomUUID()}.jpg"
@@ -32,7 +36,8 @@ class PostRepository(
 
             val postWithImages = post.copy(
                 imageUrls = imageUrls,
-                createdAt = Timestamp.now()
+                nickName = currentUser.displayName ?: "소금빵",
+                createdAt = Timestamp.now(),
             )
 
             val postData =
