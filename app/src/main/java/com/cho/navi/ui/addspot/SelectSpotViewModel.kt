@@ -5,11 +5,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.cho.navi.data.SpotRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SelectSpotViewModel(
+@HiltViewModel
+class SelectSpotViewModel @Inject constructor(
     private val repository: SpotRepository
 ) : ViewModel() {
 
