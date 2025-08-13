@@ -3,8 +3,6 @@ package com.cho.navi.ui.addpost
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.cho.navi.data.Post
 import com.cho.navi.data.PostRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -3,8 +3,6 @@ package com.cho.navi.ui.addspot
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.cho.navi.data.SpotRepository
 import com.cho.navi.data.model.Position
 import dagger.hilt.android.lifecycle.HiltViewModel

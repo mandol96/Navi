@@ -3,8 +3,6 @@ package com.cho.navi.ui.login
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.cho.navi.R
 import com.cho.navi.data.auth.AuthRepository
 import com.cho.navi.data.auth.GoogleSignInClient
