@@ -16,15 +16,12 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.cho.navi.R
-import com.cho.navi.data.SpotRepository
-import com.cho.navi.data.source.remote.NaviService
 import com.cho.navi.databinding.FragmentAddSpotBinding
 import com.cho.navi.util.ResultKeys
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class AddSpotFragment : Fragment() {
 
     private var _binding: FragmentAddSpotBinding? = null
@@ -38,15 +35,7 @@ class AddSpotFragment : Fragment() {
 
     private val selectedImageUris = mutableListOf<Uri>()
 
-    private val viewModel: AddSpotViewModel by viewModels {
-        AddSpotViewModel.provideFactory(
-            SpotRepository(
-                NaviService.create(),
-                Firebase.firestore,
-                Firebase.storage
-            )
-        )
-    }
+    private val viewModel: AddSpotViewModel by viewModels()
 
     private val pickMultiplePhotos =
         registerForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(5)) { uris ->

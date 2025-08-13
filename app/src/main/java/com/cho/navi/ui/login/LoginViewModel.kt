@@ -3,17 +3,18 @@ package com.cho.navi.ui.login
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.cho.navi.R
 import com.cho.navi.data.auth.AuthRepository
 import com.cho.navi.data.auth.GoogleSignInClient
 import com.google.firebase.auth.FirebaseUser
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel(
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val repository: AuthRepository,
     private val signInClient: GoogleSignInClient,
 ) : ViewModel() {
@@ -39,15 +40,6 @@ class LoginViewModel(
                     _loginState.value = LoginUiState.Error(R.string.error_get_token_failed)
                 }
         }
-    }
-
-    companion object {
-        fun provideFactory(repository: AuthRepository, signInClient: GoogleSignInClient) =
-            viewModelFactory {
-                initializer {
-                    LoginViewModel(repository, signInClient)
-                }
-            }
     }
 }
 

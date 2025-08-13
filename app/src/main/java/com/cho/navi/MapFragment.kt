@@ -24,23 +24,17 @@ import com.kakao.vectormap.MapLifeCycleCallback
 import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MapFragment : Fragment() {
 
     private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
 
     private var map: KakaoMap? = null
-    private val viewModel: AddSpotViewModel by viewModels {
-        AddSpotViewModel.provideFactory(
-            SpotRepository(
-                NaviService.create(),
-                Firebase.firestore,
-                Firebase.storage
-            )
-        )
-    }
+    private val viewModel: AddSpotViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

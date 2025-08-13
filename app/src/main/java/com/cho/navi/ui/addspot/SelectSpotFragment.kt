@@ -31,8 +31,10 @@ import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.MapLifeCycleCallback
 import com.kakao.vectormap.camera.CameraUpdateFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SelectSpotFragment : Fragment() {
 
     private var _binding: FragmentSelectSpotBinding? = null
@@ -40,15 +42,7 @@ class SelectSpotFragment : Fragment() {
 
     private var map: KakaoMap? = null
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private val viewModel: SelectSpotViewModel by viewModels {
-        SelectSpotViewModel.provideFactory(
-            SpotRepository(
-                NaviService.create(),
-                Firebase.firestore,
-                Firebase.storage
-            )
-        )
-    }
+    private val viewModel: SelectSpotViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

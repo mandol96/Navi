@@ -22,9 +22,11 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.UUID
 
+@AndroidEntryPoint
 class PostDetailFragment : Fragment() {
 
     private var _binding: FragmentPostDetailBinding? = null
@@ -32,15 +34,7 @@ class PostDetailFragment : Fragment() {
     private val args: PostDetailFragmentArgs by navArgs()
     private lateinit var userId: String
 
-    private val viewModel: PostDetailViewModel by viewModels {
-        PostDetailViewModel.provideFactory(
-            PostRepository(
-                Firebase.firestore,
-                Firebase.storage,
-                Firebase.auth
-            )
-        )
-    }
+    private val viewModel: PostDetailViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
