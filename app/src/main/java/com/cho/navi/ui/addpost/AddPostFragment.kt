@@ -20,11 +20,12 @@ import com.cho.navi.data.Post
 import com.cho.navi.data.PostRepository
 import com.cho.navi.databinding.FragmentAddPostBinding
 import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class AddPostFragment : Fragment() {
 
     private var _binding: FragmentAddPostBinding? = null
@@ -34,15 +35,7 @@ class AddPostFragment : Fragment() {
     private var isValidPostTitle = false
     private var isValidPostDescription = false
 
-    private val viewModel: AddPostViewModel by viewModels {
-        AddPostViewModel.provideFactory(
-            PostRepository(
-                Firebase.firestore,
-                Firebase.storage,
-                Firebase.auth
-            )
-        )
-    }
+    private val viewModel: AddPostViewModel by viewModels()
 
     private val selectedImageUris = mutableListOf<Uri>()
 

@@ -19,7 +19,6 @@ class PostFragment : Fragment() {
     private val binding get() = _binding!!
     private val postCategories = Category.entries
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

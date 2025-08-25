@@ -7,8 +7,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
+import javax.inject.Inject
 
-class SpotRepository(
+class SpotRepository @Inject constructor(
     private val naviService: NaviService,
     private val db: FirebaseFirestore,
     private val storage: FirebaseStorage

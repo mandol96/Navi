@@ -2,14 +2,15 @@ package com.cho.navi.ui.addspot
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.cho.navi.data.SpotRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SelectSpotViewModel(
+@HiltViewModel
+class SelectSpotViewModel @Inject constructor(
     private val repository: SpotRepository
 ) : ViewModel() {
 
@@ -25,14 +26,6 @@ class SelectSpotViewModel(
                 _uiState.value = SelectSpotUiState.Success(address?.addressName)
             }.onFailure { error ->
                 _uiState.value = SelectSpotUiState.Error(error)
-            }
-        }
-    }
-
-    companion object {
-        fun provideFactory(repository: SpotRepository) = viewModelFactory {
-            initializer {
-                SelectSpotViewModel(repository)
             }
         }
     }

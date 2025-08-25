@@ -2,14 +2,15 @@ package com.cho.navi.ui.postdetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.cho.navi.data.PostRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PostDetailViewModel(
+@HiltViewModel
+class PostDetailViewModel @Inject constructor(
     private val repository: PostRepository
 ) : ViewModel() {
 
@@ -48,14 +49,6 @@ class PostDetailViewModel(
                 _uiState.value = PostDetailUiState.Success(isLiked = newLike)
             }.onFailure {
                 _uiState.value = PostDetailUiState.Error("좋아요 실패")
-            }
-        }
-    }
-
-    companion object {
-        fun provideFactory(repository: PostRepository) = viewModelFactory {
-            initializer {
-                PostDetailViewModel(repository)
             }
         }
     }
