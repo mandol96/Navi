@@ -1,26 +1,28 @@
 package com.cho.navi
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.cho.navi.data.SpotRepository
-import com.cho.navi.data.source.remote.NaviService
 import com.cho.navi.databinding.FragmentMapBinding
 import com.cho.navi.ui.addspot.AddSpotViewModel
 import com.cho.navi.util.AuthManager
 import com.cho.navi.util.DialogUtil
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.LatLng
 import com.kakao.vectormap.MapLifeCycleCallback
+import com.kakao.vectormap.camera.CameraUpdateFactory
 import com.kakao.vectormap.label.LabelOptions
 import com.kakao.vectormap.label.LabelStyle
 import com.kakao.vectormap.label.LabelStyles
@@ -36,6 +38,8 @@ class MapFragment : Fragment() {
     private var map: KakaoMap? = null
     private val viewModel: AddSpotViewModel by viewModels()
 
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -47,6 +51,8 @@ class MapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         val mapView = binding.mapView
         mapView.start(
@@ -61,6 +67,9 @@ class MapFragment : Fragment() {
             }, object : KakaoMapReadyCallback() {
                 override fun onMapReady(kakaoMap: KakaoMap) {
                     map = kakaoMap
+
+                    moveToCurrentLocation()
+
                     viewModel.loadSpots()
                     viewLifecycleOwner.lifecycleScope.launch {
                         viewModel.coordinate.collect { coordinateList ->
@@ -70,6 +79,7 @@ class MapFragment : Fragment() {
                         }
                     }
                 }
+
             }
         )
 
@@ -85,6 +95,36 @@ class MapFragment : Fragment() {
                     val action = MapFragmentDirections.actionGlobalLogin()
                     findNavController().navigate(action)
                 }
+            }
+        }
+    }
+
+    private fun moveToCurrentLocation() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                100
+            )
+            return
+        }
+
+        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            if (location != null) {
+                val lat = location.latitude
+                val lng = location.longitude
+                val latLng = LatLng.from(lat, lng)
+
+                // ✅ 카메라 이동
+                map?.moveCamera(CameraUpdateFactory.newCenterPosition(latLng))
+
+                // ✅ 내 위치 마커 추가
+                addMarker(lat, lng)
             }
         }
     }
