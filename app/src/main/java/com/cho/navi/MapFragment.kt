@@ -120,10 +120,8 @@ class MapFragment : Fragment() {
                 val lng = location.longitude
                 val latLng = LatLng.from(lat, lng)
 
-                // ✅ 카메라 이동
                 map?.moveCamera(CameraUpdateFactory.newCenterPosition(latLng))
 
-                // ✅ 내 위치 마커 추가
                 addMarker(lat, lng)
             }
         }
